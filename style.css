@@ -9,7 +9,7 @@ body {
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: yellow;
+  background-color: rgb(165, 165, 165);
 }
 .grid div {
   width: 18px;
