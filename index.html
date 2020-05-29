@@ -4,19 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tetris</title>
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h3>Score: <span id="score">0</span></h3>
-  <button id="startStop">Start / Stop</button>
-
-  <div class="container">
-    <div class="grid"></div>
-    <div class="upNextGrid"></div>
+  <div class="pageContainer">
+    <div class="scoreContainer">
+      <h3>SCORE: <span id="score">0</span></h3>
+      <h3 id="gameOver">GAME OVER</h3>
+    </div>
+    
+    <div class="gameContainer">
+      <div class="grid"></div>
+      <div class="gameStats">
+        <div class="upNext">
+          <p>NEXT</p>
+          <div class="upNextGrid"></div>
+        </div>
+        <div>
+          <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
+        </div>
+        <div>
+          <button id="reset">RESET <i class="fa fa-redo-alt"></i></button>
+        </div>
+      </div>
+    </div>
+    
   </div>
-
-  <div id="gameOver"></div>
 
   <script src="app.js"></script>
 </body>

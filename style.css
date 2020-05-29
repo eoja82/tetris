@@ -1,33 +1,94 @@
 body {
   box-sizing: border-box;
+  background-color: rgb(31, 31, 31);
 }
-.container {
+.pageContainer {
   display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  margin: 1.5rem auto;
+  justify-content: center;
+}
+.scoreContainer {
+  background-color: rgb(92, 92, 92);
+  display: flex;
+  flex-direction: row;
+  margin: 1rem auto 0;
+  color: white;
+  justify-content: space-between;
+  width: 100%;
+}
+.scoreContainer h3 {
+  font-size: 1.5rem;
+  width: 50%;
+  text-align: center;
+}
+#gameOver {
+  color: red;
+  visibility: hidden;
+  animation-duration: 2s;
+}
+.gameContainer {
+  display: flex;
+  background-color: rgb(92, 92, 92);
+  width: 100%;
+  padding: 3rem 0;
+  margin: 0 auto;
+  justify-content: center;
 }
 .grid {
   width: 200px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: rgb(165, 165, 165);
+  /* background-color: rgb(165, 165, 165); */
+  background-color: rgb(31, 31, 31);
+  /* padding: .5rem; */
 }
 .grid div {
-  width: 18px;
-  height: 18px;
-  border: 1px solid black;
+  width: 16px;
+  height: 16px;
+  border: 2px outset;
+  border-color: transparent;
+  /* background-color: rgb(165, 165, 165); */
 }
 .tetro {
-  background-color: blue;
+  /* width: 18px;
+  height: 18px;  */
+  /* border-color: rgb(31, 31, 31); */
+ /*  border-radius: .5px; */
+}
+.gameStats {
+  margin-left: 50px;
+  color: white;
+}
+.upNext {
+  padding: .5rem;
+  background-color: rgb(31, 31, 31);
+  color: white;
+  text-align: center;
 }
 .upNextGrid {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   display: flex;
   flex-wrap: wrap;
-  background-color: yellow;
-  margin-left: 50px;
+  background-color: rgb(31, 31, 31);
 }
 .upNextGrid div {
   width: 20px;
   height: 20px;
+}
+#playPauseBtn, #reset {
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: .5rem 0;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  border-radius: 18.5px;
+  background-color: #2988ce;
+}
+.fa {
+  font-size: .75rem;
 }

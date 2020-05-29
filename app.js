@@ -2,14 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const width = 10
   const grid = document.querySelector(".grid")
   const score = document.getElementById("score")
-  const startStop = document.getElementById("startStop")
+  const playPauseBtn = document.getElementById("playPauseBtn")
   const tetroColors = ["red", "green", "orange", "purple", "blue"]
   
   // add 200 squares to grid plus 10 for bottom row to stop tetros
   for (let i = 0; i < 210; i++) {
     let div = document.createElement("div")
-    // tetro will stop falling when it hits a "taken" div so tis is the floor
-    if (i > 199) div.classList.add("taken")
+    // tetro will stop falling when it hits a "taken" div so this is the floor
+    if (i > 199) {
+      div.classList.add("taken")
+      div.style.backgroundColor = "transparent"
+    }
     grid.appendChild(div)
   }
 
@@ -17,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const upNextGrid = document.querySelector(".upNextGrid")
   // add 16 squares to upNextGrid
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 25; i++) {
     let div = document.createElement("div")
     upNextGrid.appendChild(div)
   }
@@ -25,26 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // the tetros
   const lTetro = [
     [1, 2, width + 1, width * 2 + 1],
-    [width, width + 1, width + 2, width * 2 + 2],
+    [0, 1, 2, width +2],
     [1, width + 1, width * 2, width * 2 + 1],
-    [width, width * 2, width * 2 + 1, width * 2 +2]
+    [0, width, width + 1, width + 2]
   ] 
   const tTetro = [
     [1, width, width + 1, width +2],
     [1, width + 1, width +2, width * 2 +1],
-    [width, width + 1, width + 2, width * 2 + 1],
+    [0, 1, 2, width + 1],
     [1, width, width + 1, width * 2 + 1]
   ]
   const iTetro = [
     [1, width + 1, width * 2 + 1, width * 3 + 1],
-    [width, width + 1, width + 2, width + 3],
+    [0, 1, 2, 3],
     [1, width + 1, width * 2 + 1, width * 3 + 1],
-    [width, width + 1, width + 2, width + 3]
+    [0, 1, 2, 3]
   ]
   const zTetro = [
-    [width + 1, width + 2, width * 2, width * 2 +1],
+    [1, 2, width, width + 1],
     [0, width, width + 1, width * 2 +1],
-    [width + 1, width + 2, width * 2, width * 2 +1],
+    [1, 2, width, width + 1],
     [0, width, width + 1, width * 2 +1]
   ]
   const oTetro = [
@@ -81,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tetro.forEach( num => {
       squares[currentPosition + num].classList.add("tetro")
       squares[currentPosition + num].style.backgroundColor = tetroColors[currentTetro]
+      squares[currentPosition + num].style.borderColor = "rgb(130, 127, 127)"
     })
   }
 
@@ -91,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tetro.forEach( num => {
       squares[currentPosition + num].classList.remove("tetro")
       squares[currentPosition + num].style.backgroundColor = ""
+      squares[currentPosition + num].style.borderColor = "transparent"
     })
   }
 
@@ -109,13 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let gravity 
   let speed = 1000      // rate at which tetro drops
   
-  startStop.addEventListener("click", playPause)
+  playPauseBtn.addEventListener("click", playPause)
 
   function playPause() {
     if (playing) {
       clearInterval(gravity)
       playing = false
+      playPauseBtn.innerHTML = 'Play <i class="fa fa-play"></i>' 
     } else {
+      playPauseBtn.innerHTML = 'Pause <i class="fa fa-pause"></i>'
       draw()
       gravity = setInterval(dropDown, speed)
       playing = true
@@ -184,15 +191,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // show up next tetro
   const upNextGridSquares = document.querySelectorAll(".upNextGrid div")
-  const nextGridWidth = 4
+  const nextGridWidth = 5
   //const nextGridIndex = 0
 
   const upNextTetros = [
-    [1, 2, nextGridWidth + 1, nextGridWidth * 2 + 1],                                  // lTetro
-    [1, nextGridWidth, nextGridWidth + 1, nextGridWidth +2],                           // tTetro
-    [1, nextGridWidth + 1, nextGridWidth * 2 + 1, nextGridWidth * 3 + 1],              // iTetro
-    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2, nextGridWidth * 2 +1],   // zTetro
-    [0, 1, nextGridWidth, nextGridWidth + 1]                                           // oTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],                                  // lTetro
+    [2, nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3],                           // tTetro
+    [2, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 3 + 2, nextGridWidth * 3 + 2],              // iTetro
+    [nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],   // zTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2]                                           // oTetro
   ] 
 
   // display up next tetro
@@ -221,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
         row.forEach( num => {
           squares[num].classList.remove("taken", "tetro")
           squares[num].style.backgroundColor = ""
+          squares[num].style.borderColor = "transparent"
         })
         let spliceSquares = squares.splice(i, width)
         squares = spliceSquares.concat(squares)
@@ -240,8 +248,28 @@ document.addEventListener("DOMContentLoaded", () => {
   function endGame() {
     if (tetro.some( num => squares[currentPosition + num].classList.contains("taken"))) {
       playing = false
-      document.getElementById("gameOver").innerHTML = "Game Over"
+      const gameOver = document.getElementById("gameOver")
+      gameOver.classList.add("animated", "flash")
+      gameOver.style.visibility = "visible"
+
       clearInterval(gravity)
     }
+  }
+
+  // reset game
+  const reset = document.getElementById("reset")
+  reset.addEventListener("click", resetGame)
+
+  function resetGame() {
+    score.innerHTML = "0"
+    gameOver.style.visibility = "hidden"
+    gameOver.classList.remove("animated", "flash")
+    playPauseBtn.innerHTML = 'Play <i class="fa fa-play"></i>'
+    for (let i = 0; i < 199; i++) {
+      squares[i].classList.remove("taken", "tetro")
+      squares[i].style.backgroundColor = ""
+      squares[i].style.borderColor = "transparent"
+    }
+
   }
 })
