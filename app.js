@@ -207,10 +207,12 @@ document.addEventListener("DOMContentLoaded", () => {
     upNextGridSquares.forEach( x => {
       x.classList.remove("tetro")
       x.style.backgroundColor = ""
+      x.style.borderColor = "transparent"
     })
     upNextTetros[upNextTetro].forEach( num => {
       upNextGridSquares[num].classList.add("tetro")
       upNextGridSquares[num].style.backgroundColor = tetroColors[upNextTetro]
+      upNextGridSquares[num].style.borderColor = "rgb(130, 127, 127)"
     })
   }
 

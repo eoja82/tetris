@@ -52,12 +52,6 @@ body {
   border-color: transparent;
   /* background-color: rgb(165, 165, 165); */
 }
-.tetro {
-  /* width: 18px;
-  height: 18px;  */
-  /* border-color: rgb(31, 31, 31); */
- /*  border-radius: .5px; */
-}
 .gameStats {
   margin-left: 50px;
   color: white;
@@ -76,8 +70,10 @@ body {
   background-color: rgb(31, 31, 31);
 }
 .upNextGrid div {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
+  border: 2px outset;
+  border-color: transparent;
 }
 #playPauseBtn, #reset {
   cursor: pointer;
