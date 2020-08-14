@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
 
-  let currentPosition = 0    // position on grid
+  let currentPosition = 4    // position on grid
   
   // indexes to use with tetro in rotate function: tetro[currentTetro][currentRotation] 
   let currentTetro           
@@ -150,9 +150,9 @@ document.addEventListener("DOMContentLoaded", () => {
       tetro = tetros[currentTetro][randomRotation()]
       upNextTetro = Math.floor(Math.random() * tetros.length)  
       currentPosition = 4
-      draw()
       displayNextTetro()
       scorePoints()
+      draw()
       endGame()
     }
   }
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const upNextGridSquares = document.querySelectorAll(".upNextGrid div")
   const nextGridWidth = 5
   //const nextGridIndex = 0
-
+  
   const upNextTetros = [
     [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],         // lTetro
     [nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3], // tTetro
@@ -244,7 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // score points and remove squares
   let points = 0
-  let removedSquares = []
 
   function scorePoints() {
     for (let i = 0; i < 199; i += width) {
@@ -258,17 +257,9 @@ document.addEventListener("DOMContentLoaded", () => {
           squares[num].style.backgroundColor = ""
           squares[num].style.borderColor = "transparent"
         })
-        let spliceSquares = squares.splice(i, width)
-        squares = spliceSquares.concat(squares)
+        squares = squares.splice(i, width).concat(squares)
         squares.forEach( square => grid.appendChild(square))
-        //removedSquares.concat(spliceSquares)
-        //console.log(removedSquares)
-       /*  squares = removedSquares.concat(squares)
-        squares.forEach( square => grid.appendChild(square)) */
       }
-      /* squares = removedSquares.concat(squares)
-      squares.forEach( square => grid.appendChild(square))
-      removedSquares = [] */
     }
   }
 
