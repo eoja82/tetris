@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let squares = Array.from(document.querySelectorAll(".grid div"))
 
   const upNextGrid = document.querySelector(".upNextGrid")
-  // add 16 squares to upNextGrid
+  // add 20 squares to upNextGrid
   for (let i = 0; i < 20; i++) {
     let div = document.createElement("div")
     upNextGrid.appendChild(div)
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ]
   const iTetro = [
     [1, width + 1, width * 2 + 1, width * 3 + 1],
-    [0, 1, 2, 3],
+    [width, width + 1, width + 2, width + 3],
     [1, width + 1, width * 2 + 1, width * 3 + 1],
-    [0, 1, 2, 3]
+    [width, width + 1, width + 2, width + 3]
   ]
   const zTetro = [
     [1, 2, width, width + 1],
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
 
-  let currentPosition = 4    // position on grid
+  let currentPosition = 0    // position on grid
   
   // indexes to use with tetro in rotate function: tetro[currentTetro][currentRotation] 
   let currentTetro           
@@ -157,15 +157,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // detect collision with other tetros
-  let tetroCollision = () => { return tetro.some( num => squares[currentPosition + num].classList.contains("taken")) }
+  // detect collision with other tetros and left and right edges
+  const tetroCollision = () => { return tetro.some( num => squares[currentPosition + num].classList.contains("taken")) }
+  const rightEdgeCollision = () => { return tetro.some( num => (currentPosition + num) % width === width - 1) }
+  const leftEdgeCollision = () => { return tetro.some( num => (currentPosition + num) % width === 0) }
 
   // move tetro left till it hits edge or another tetro
   function moveLeft() {
     if (!playing) return
     undraw()
-    let leftEdgeCollision = tetro.some( num => (currentPosition + num) % width === 0)
-    if (!leftEdgeCollision) currentPosition--
+    if (!leftEdgeCollision()) currentPosition--
     if (tetroCollision()) currentPosition++
     draw()
   }
@@ -174,8 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function moveRight() {
     if (!playing) return
     undraw()
-    let rightEdgeCollison = tetro.some( num => (currentPosition + num) % width === width - 1)
-    if (!rightEdgeCollison) currentPosition++
+    if (!rightEdgeCollision()) currentPosition++
     if (tetroCollision()) currentPosition--
     draw()
   }
@@ -186,9 +186,34 @@ document.addEventListener("DOMContentLoaded", () => {
     undraw()
     currentRotation++
     if (currentRotation === tetro.length) currentRotation = 0
-    tetro = tetros[currentTetro][currentRotation]    
+    tetro = tetros[currentTetro][currentRotation] 
+    // make sure the new rotated position is not off an edge
+    if (currentPosition % width < 9) {
+      if (rightEdgeCollision()) checkRotatedPosition("right")
+    } else {
+      if (leftEdgeCollision()) checkRotatedPosition("left")
+    } 
     draw()
   }
+
+  function checkRotatedPosition(edge) {
+    if (edge == "right") {
+      if (offRightEdge()) {
+        currentPosition--
+        checkRotatedPosition("right")
+      }
+    }
+    if (edge == "left") {
+      if (offLeftEdge()) {
+        currentPosition++
+        checkRotatedPosition("left")
+      }
+    }
+  }
+
+  // checks if tetro is wrapping acound edges
+  const offRightEdge = () => { return tetro.some( num => ((currentPosition + num) % width === 0) || ((currentPosition + num) % width === 1)) }
+  const offLeftEdge = () => { return tetro.some( num => ((currentPosition + num) % width === width - 1)) }
 
   // show up next tetro
   const upNextGridSquares = document.querySelectorAll(".upNextGrid div")
@@ -196,11 +221,11 @@ document.addEventListener("DOMContentLoaded", () => {
   //const nextGridIndex = 0
 
   const upNextTetros = [
-    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],                                  // lTetro
-    [nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3],                     // tTetro
-    [2, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 3 + 2],              // iTetro
-    [nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],   // zTetro
-    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2]                                  // oTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],         // lTetro
+    [nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3], // tTetro
+    [2, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 3 + 2],                     // iTetro
+    [nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],     // zTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2]      // oTetro
   ] 
 
   // display up next tetro
