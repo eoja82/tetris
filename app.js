@@ -58,7 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
     [0, 1, width, width + 1]
   ]
 
-  const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
+  //const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
+
+  // for testing
+  const tetros = [iTetro]
 
   let currentPosition = 4    // position on grid
   
@@ -137,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!playing) return
     undraw()
     currentPosition += width
+    //console.log("dropdown draw")
     draw()
     stopTetro()
   }
@@ -144,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // stop tetro from falling when it collides with a div that include class "taken"
   function stopTetro() {
     if (tetro.some( num => squares[currentPosition + num + width].classList.contains("taken"))) {
+      //console.log("stopping tetro")
       tetro.forEach( num => squares[currentPosition + num].classList.add("taken"))
       // drop next tetro
       currentTetro = upNextTetro
@@ -169,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!leftEdgeCollision()) currentPosition--
     if (tetroCollision()) currentPosition++
     draw()
+    //stopTetro()
   }
 
   // move tetro right till it hits edge or another tetro
@@ -178,37 +184,169 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!rightEdgeCollision()) currentPosition++
     if (tetroCollision()) currentPosition--
     draw()
+    //stopTetro()
   }
 
   // rotate the tetro
   function rotate() {
+    //console.log("rotated")
     if (!playing) return
     undraw()
     currentRotation++
     if (currentRotation === tetro.length) currentRotation = 0
     tetro = tetros[currentTetro][currentRotation] 
-    // make sure the new rotated position is not off an edge
-    if (currentPosition % width < 9) {
-      if (rightEdgeCollision()) checkRotatedPosition("right")
-    } else {
-      if (leftEdgeCollision()) checkRotatedPosition("left")
+    // make sure another tetro is not in the way of rotation
+     if (tetroCollision()) {
+      console.log("tetro collision on rotate")
+      checkRotatedPosition()
+      //console.log("pre draw")
+      draw()
+      //stopTetro()
+      return
     } 
-    draw()
-  }
 
-  function checkRotatedPosition(edge) {
-    if (edge == "right") {
-      if (offRightEdge()) {
-        currentPosition--
+    // make sure the new rotated position is not off an edge
+    // currentPosition % width will only be 9 if a tetro is rotated on the left edge 
+    if (currentPosition % width < 9) {
+      if (rightEdgeCollision()) {
+        //console.log("Right edge collision " + "currentPosition " + currentPosition)
         checkRotatedPosition("right")
       }
-    }
-    if (edge == "left") {
-      if (offLeftEdge()) {
-        currentPosition++
+    } else {
+      if (leftEdgeCollision()) {
+        //console.log("Left edge collision")
         checkRotatedPosition("left")
       }
+    } 
+    //stopTetro()
+    //console.log("pre draw")
+    draw()
+    stopTetro()
+  }
+
+  function checkRotatedPosition(edge = null) {
+    let tempPosition = currentPosition
+    //console.log( "tempPosition " + tempPosition)
+
+    function checkPosition(edge = null) {
+      if (edge == "right") {
+        if (offRightEdge()) {
+          //console.log("Off right edge " + "currentPosition " + currentPosition)
+          currentPosition--
+          if (tetroCollision()) {
+            currentPosition++
+            currentPosition = tempPosition == currentPosition ? currentPosition : tempPosition
+            //console.log("currentPosition " + currentPosition + " pre reset")
+            resetCurrentRotation()
+            return
+          }
+          //console.log("run function again " + "currentPosition " + currentPosition)
+          checkPosition("right")
+        } 
+      } else if (edge == "left") {
+        //console.log("Off left edge")
+        if (offLeftEdge()) {
+          currentPosition++
+          if (tetroCollision()) {
+            currentPosition--
+            currentPosition = tempPosition == currentPosition ? currentPosition : tempPosition
+            resetCurrentRotation()
+            return
+          }
+          checkPosition("left")
+        }
+      } else {
+        const side = tetroCollisionSide()
+        console.log(side)
+        
+        if (side == "left") {
+          //console.log("offLeftEdge " + offLeftEdge())
+          currentPosition++
+          console.log("offRightEdge " + offRightEdge())
+          console.log("tetro collision " + tetroCollision())
+          //checkPosition()
+          if (!offRightEdge() && !tetroCollision()) {
+            console.log("returning left side")
+            return
+          } else if (tetroCollisionSide == "right") {
+            currentPosition = tempPosition
+            resetCurrentRotation()
+            return
+          } else {
+            checkPosition()
+            //currentPosition = tempPosition
+            //if (tetroCollision()) resetCurrentRotation()
+          }
+        }          
+        if (side == "right") {
+          currentPosition--
+          console.log("offLeftEdge " + offLeftEdge())
+          console.log("tetro collision " + tetroCollision())
+          //checkPosition()
+          if (!offLeftEdge() && !tetroCollision()) {
+            console.log("returning right side")
+            return
+          } else if (tetroCollisionSide() == "left") {
+            currentPosition = tempPosition
+            resetCurrentRotation()
+            return
+          } else {
+            checkPosition()
+            //currentPosition = tempPosition
+            //if (tetroCollision()) resetCurrentRotation()
+          }
+        }
+        if (side == undefined) {
+          console.log("side is undefined")
+          currentPosition = tempPosition
+          resetCurrentRotation()
+          return
+        }
+           
+      }
     }
+    checkPosition(edge)
+  }
+
+  function resetCurrentRotation() {
+    currentRotation--
+    if (currentRotation < 0) currentRotation = tetro.length - 1
+    tetro = tetros[currentTetro][currentRotation]
+  }
+
+  function tetroCollisionSide() {
+    //console.log("tetroCollisionSide")
+    let collisionSide
+    let i = 0
+    //let tempPosition = currentPosition
+    
+    for (i; i < tetro.length; i++) {
+      //console.log("i = " + i)
+      if (squares[i + currentPosition].classList.contains("taken")) {
+        console.log("i = " + i)
+        if (i === 0) {
+          // check that it is not wraping around the edge
+          if (!offLeftEdge()) {
+            collisionSide = "left"
+            break
+          } else {
+            collisionSide = undefined
+            break
+          }
+        } else if (i > 0) {
+          // check that it is not wraping around the edge
+          if (!offRightEdge()) {
+            collisionSide = "right"
+            break
+          } else {
+            collisionSide = undefined
+            break
+          }
+        }
+      }
+    }
+
+    return collisionSide
   }
 
   // checks if tetro is wrapping acound edges
@@ -218,7 +356,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // show up next tetro
   const upNextGridSquares = document.querySelectorAll(".upNextGrid div")
   const nextGridWidth = 5
-  //const nextGridIndex = 0
   
   const upNextTetros = [
     [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],         // lTetro
@@ -257,6 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
           squares[num].style.backgroundColor = ""
           squares[num].style.borderColor = "transparent"
         })
+        // remove row and put it at the beginning
         squares = squares.splice(i, width).concat(squares)
         squares.forEach( square => grid.appendChild(square))
       }
@@ -270,9 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameOver.classList.add("animated", "flash")
       gameOver.style.display = "flex"
       gameOver.style.visibility = "visible"
-
       upNextGrid.style.display = "none"
-
       clearInterval(gravity)
     }
   }
@@ -283,14 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetGame() {
     playing = false
-    //undraw()
     score.innerHTML = "0"
     gameOver.style.visibility = "hidden"
     gameOver.classList.remove("animated", "flash")
     gameOver.style.display = "none"
     upNextGrid.style.display = "flex"
     playPauseBtn.innerHTML = 'PLAY <i class="fa fa-play"></i>'
-    for (let i = 0; i < 199; i++) {
+    for (let i = 0; i < 200; i++) {
       squares[i].classList.remove("taken", "tetro")
       squares[i].style.backgroundColor = ""
       squares[i].style.borderColor = "transparent"
