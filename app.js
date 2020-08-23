@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tetro = tetros[currentTetro][currentRotation] 
     // make sure another tetro is not in the way of rotation
      if (tetroCollision()) {
-      console.log("tetro collision on rotate")
+      //console.log("tetro collision on rotate")
       checkRotatedPosition()
       //console.log("pre draw")
       draw()
@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log( "tempPosition " + tempPosition)
 
     function checkPosition(edge = null) {
+      //console.log("edge: " + edge)
       if (edge == "right") {
         if (offRightEdge()) {
           //console.log("Off right edge " + "currentPosition " + currentPosition)
@@ -236,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (tetroCollision()) {
             currentPosition++
             currentPosition = tempPosition == currentPosition ? currentPosition : tempPosition
-            //console.log("currentPosition " + currentPosition + " pre reset")
+            console.log("currentPosition " + currentPosition + " pre reset")
             resetCurrentRotation()
             return
           }
@@ -257,18 +258,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } else {
         const side = tetroCollisionSide()
-        console.log(side)
+        //console.log(side)
         
         if (side == "left") {
           //console.log("offLeftEdge " + offLeftEdge())
           currentPosition++
-          console.log("offRightEdge " + offRightEdge())
-          console.log("tetro collision " + tetroCollision())
+          //console.log("offRightEdge " + offRightEdge())
+          //console.log("tetro collision " + tetroCollision())
           //checkPosition()
           if (!offRightEdge() && !tetroCollision()) {
-            console.log("returning left side")
+            //console.log("returning left side")
             return
-          } else if (tetroCollisionSide == "right") {
+          } else if (tetroCollisionSide() == "right") {
             currentPosition = tempPosition
             resetCurrentRotation()
             return
@@ -280,24 +281,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }          
         if (side == "right") {
           currentPosition--
-          console.log("offLeftEdge " + offLeftEdge())
-          console.log("tetro collision " + tetroCollision())
+          //console.log("offLeftEdge " + offLeftEdge())
+          //console.log("tetro collision " + tetroCollision())
           //checkPosition()
           if (!offLeftEdge() && !tetroCollision()) {
-            console.log("returning right side")
+            //console.log("returning right side")
             return
           } else if (tetroCollisionSide() == "left") {
+            //console.log("Tetro collision moving left")
             currentPosition = tempPosition
             resetCurrentRotation()
             return
           } else {
+            //console.log("rechecking position for right side")
             checkPosition()
             //currentPosition = tempPosition
             //if (tetroCollision()) resetCurrentRotation()
           }
         }
         if (side == undefined) {
-          console.log("side is undefined")
+          //console.log("side is undefined")
           currentPosition = tempPosition
           resetCurrentRotation()
           return
@@ -318,12 +321,11 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log("tetroCollisionSide")
     let collisionSide
     let i = 0
-    //let tempPosition = currentPosition
     
     for (i; i < tetro.length; i++) {
       //console.log("i = " + i)
       if (squares[i + currentPosition].classList.contains("taken")) {
-        console.log("i = " + i)
+        //console.log("i = " + i)
         if (i === 0) {
           // check that it is not wraping around the edge
           if (!offLeftEdge()) {
@@ -335,10 +337,14 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         } else if (i > 0) {
           // check that it is not wraping around the edge
-          if (!offRightEdge()) {
+          //console.log("1 > 0, checkLeftEdge: " + checkLeftEdge())
+          //console.log("currentPosition: " + currentPosition)
+          if (!checkLeftEdge()) {
+            //console.log("i > 0 not offRightEdge")
             collisionSide = "right"
             break
           } else {
+            //console.log("i > 0 checkRightEdge")
             collisionSide = undefined
             break
           }
@@ -352,6 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // checks if tetro is wrapping acound edges
   const offRightEdge = () => { return tetro.some( num => ((currentPosition + num) % width === 0) || ((currentPosition + num) % width === 1)) }
   const offLeftEdge = () => { return tetro.some( num => ((currentPosition + num) % width === width - 1)) }
+
+  // in tetroCollisionSide() this function need to be used rather than offRightEdge() 
+  // because the tetro index needs to be greater than 0 if ((currentPosition + num) % width) === 1)
+  const checkLeftEdge = () => {
+    return tetro.some( (num, i) => {
+      ((currentPosition + num) % width === 0) || (i > 0 && ((currentPosition + num) % width) === 1)
+    })
+  }
 
   // show up next tetro
   const upNextGridSquares = document.querySelectorAll(".upNextGrid div")
