@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
     [0, 1, width, width + 1]
   ]
 
-  //const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
+  const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
 
   // for testing
-  const tetros = [iTetro]
+  //const tetros = [iTetro]
 
   let currentPosition = 4    // position on grid
   
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // game controls
+  // keyboard game controls
   addEventListener("keydown", controls)
 
   function controls(e) {
@@ -136,13 +136,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function dropDown() {
+  // button game controls
+  const touchRotate = document.getElementById("rotate")
+  const touchMoveDown = document.getElementById("moveDown")
+  const touchMoveLeft = document.getElementById("moveLeft")
+  const touchMoveRight = document.getElementById("moveRight")
+  //console.log(touchMoveRight)
+  touchRotate.addEventListener("touchend", rotate)
+  touchMoveDown.addEventListener("touchend", dropDown)
+  touchMoveLeft.addEventListener("touchend", moveLeft)
+  touchMoveRight.addEventListener("touchend", moveRight)
+
+  function dropDown(e) {
+    if (e) e.preventDefault()
     if (!playing) return
     undraw()
     currentPosition += width
     //console.log("dropdown draw")
     draw()
     stopTetro()
+    return false
   }
   
   // stop tetro from falling when it collides with a div that include class "taken"
@@ -168,28 +181,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const leftEdgeCollision = () => { return tetro.some( num => (currentPosition + num) % width === 0) }
 
   // move tetro left till it hits edge or another tetro
-  function moveLeft() {
+  function moveLeft(e) {
+    if (e) e.preventDefault()
     if (!playing) return
     undraw()
     if (!leftEdgeCollision()) currentPosition--
     if (tetroCollision()) currentPosition++
     draw()
     //stopTetro()
+    return false
   }
 
   // move tetro right till it hits edge or another tetro
-  function moveRight() {
+  function moveRight(e) {
+    if (e) e.preventDefault();
     if (!playing) return
     undraw()
     if (!rightEdgeCollision()) currentPosition++
     if (tetroCollision()) currentPosition--
     draw()
     //stopTetro()
+    return false
   }
 
   // rotate the tetro
-  function rotate() {
+  function rotate(e) {
     //console.log("rotated")
+    if (e) e.preventDefault()
     if (!playing) return
     undraw()
     currentRotation++
@@ -202,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
       //console.log("pre draw")
       draw()
       //stopTetro()
-      return
+      return 
     } 
 
     // make sure the new rotated position is not off an edge
@@ -222,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log("pre draw")
     draw()
     stopTetro()
+    return false
   }
 
   function checkRotatedPosition(edge = null) {
@@ -359,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const offRightEdge = () => { return tetro.some( num => ((currentPosition + num) % width === 0) || ((currentPosition + num) % width === 1)) }
   const offLeftEdge = () => { return tetro.some( num => ((currentPosition + num) % width === width - 1)) }
 
-  // in tetroCollisionSide() this function need to be used rather than offRightEdge() 
+  // in tetroCollisionSide() this function needs to be used rather than offRightEdge() 
   // because the tetro index needs to be greater than 0 if ((currentPosition + num) % width) === 1)
   const checkLeftEdge = () => {
     return tetro.some( (num, i) => {
