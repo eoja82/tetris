@@ -416,12 +416,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let points = 0
 
   function scorePoints() {
+    let rowsCleared = 0,
+        pointsScored = 0
     for (let i = 0; i < 199; i += width) {
       let row = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8, i + 9]
   
       if (row.every( num => squares[num].classList.contains("taken"))) {
-        points += 10
-        score.innerHTML = points
+        //points += 10
+        //score.innerHTML = points
+        rowsCleared++
+        //console.log(rowsCleared)
+        pointsScored += 10
+        //console.log(pointsScored)
         row.forEach( num => {
           squares[num].classList.remove("taken", "tetro")
           squares[num].style.backgroundColor = ""
@@ -432,6 +438,9 @@ document.addEventListener("DOMContentLoaded", () => {
         squares.forEach( square => grid.appendChild(square))
       }
     }
+    points += (rowsCleared * pointsScored)
+    // if (points > 10000000) end game
+    score.innerHTML = points
   }
 
   // game over
