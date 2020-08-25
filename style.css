@@ -2,12 +2,36 @@
   --borderColor: rgb(0, 255, 191);
   --borderRadius: 3px;
   --gameBackground: black;
+  --gridWidth: 200px;
+  --gridHeight: 400px;
+  --gridDivWidth: 16px;
+  --gridDivHeight: 16px;
+  --upNextGridWidth: 100px;
+  --upNextGridHeight: 80px;
+  --controlPaddingSide: 2rem;
+  --controlPaddingBottom: 2rem;
+}
+@media only screen and (max-height: 570px) {
+  :root {
+    --gridWidth: 160px;
+    --gridHeight: 320px;
+    --gridDivWidth: 12px;
+    --gridDivHeight: 12px;
+    --upNextGridWidth: 80px;
+    --upNextGridHeight: 64px;
+    --controlPaddingSide: 1rem;
+    --controlPaddingBottom: 1rem;
+  }
 }
 body {
   box-sizing: border-box;
   background-color: rgb(31, 31, 31);
   margin: 0;
   padding: 0;
+}
+header {
+  text-align: center;
+  color: #2988ce;
 }
 .pageContainer {
   display: flex;
@@ -44,8 +68,8 @@ body {
   justify-content: center;
 }
 .grid {
-  width: 200px;
-  height: 400px;
+  width: var(--gridWidth);
+  height: var(--gridHeight);
   display: flex;
   flex-wrap: wrap;
   /* background-color: rgb(165, 165, 165); */
@@ -55,8 +79,8 @@ body {
   /* padding: .5rem; */
 }
 .grid div {
-  width: 16px;
-  height: 16px;
+  width: var(--gridDivWidth);
+  height: var(--gridDivHeight);
   border: 2px outset;
   border-color: transparent;
   /* background-color: rgb(165, 165, 165); */
@@ -76,16 +100,16 @@ body {
   font-size: .9rem;
 }
 .upNextGrid {
-  width: 100px;
-  height: 80px;
+  width: var(--upNextGridWidth);
+  height: var(--upNextGridHeight);
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 16px;
   /* background-color: rgb(31, 31, 31); */
 }
 .upNextGrid div {
-  width: 16px;
-  height: 16px;
+  width: var(--gridDivWidth);
+  height: var(--gridDivHeight);
   border: 2px outset;
   border-color: transparent;
 }
@@ -117,36 +141,58 @@ body {
 #controlsContainer {
   display: none;
 }
-/* .controlButton {
-  width: 60px;
-  height: 60px;
-  font-size: 2rem;
-  border-radius: 50%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-} */
 @media (hover: none) {
   #controlsContainer {
-    display: flex;
-    margin: 1rem auto 0;
-    width: 100%;
-    justify-content: center;
+    position: fixed;
+    bottom: 200px;
+    left: 0;
+    width: 100vw;
+    display: block;
   }
-  /* .controlButtons {
-    width: 100%
-  } */
   .controlButton {
     width: 60px;
     height: 60px;
     padding: 0;
     font-size: 1.75rem;
     border-radius: 50%;
+    border: none;
     color: white;
     background-color: red;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
+    appearance: none; */
+  }
+  #leftControls {
+    float: left;
+    margin: 0;
+    padding-left: var(--controlPaddingSide);
+    padding-bottom: var(--controlPaddingBottom);
+  }
+  #rotate {
+    margin-right: 1rem;
+  }
+  #rightControls {
+    float: right;
+    margin: 0;
+    padding-right: var(--controlPaddingSide);
+    padding-bottom: var(--controlPaddingBottom);
+  }
+  #moveRight {
+    margin-left: 1rem;
+  }
+}
+@media only screen and (max-height: 570px) {
+  #playPauseBtn, #reset {
+    margin-top: .7rem;
+  }
+  #rotate {
+    margin-right: .5rem;
+  }
+  #moveRight {
+    margin-left: .5rem;
+  }
+  #controlsContainer {
+    bottom: 0;
   }
 }
 @media only screen and (max-width: 440px) {
@@ -158,13 +204,5 @@ body {
   }
   .gameStats {
     margin-left: 5px;
-  }
-  .controlButtons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    width: 100%;
-    margin: 0 auto;
-    justify-content: space-between;
   }
 }
