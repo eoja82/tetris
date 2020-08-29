@@ -4,8 +4,61 @@ document.addEventListener("DOMContentLoaded", () => {
   const score = document.getElementById("score")
   const gameOver = document.getElementById("gameOver")
   const playPauseBtn = document.getElementById("playPauseBtn")
-  const tetroColors = ["red", "green", "orange", "purple", "blue"]
-  
+  //const tetroColors = ["red", "green", "orange", "purple", "blue", "yellow", "brown"]
+  const tetroColors = [
+    "orange",    // i
+    "red",    // j
+    "rgb(31, 209, 221)",    // l
+    "blue",    // 0 
+    "purple",    // s 
+    "green",    // t 
+    "yellow"    // z
+  ]
+  const hLetters = document.querySelectorAll(".hLetter")
+  let delay = 0
+
+  hLetters.forEach( (x, i) => {
+    x.style.color = tetroColors[i]
+    x.style.animationDelay = `${delay}s`
+    x.classList.add("animate__animated", "animate__fadeIn")
+    delay += .3
+  })
+
+  hLetters[hLetters.length - 1].addEventListener("animationend", moveToTop)
+
+  function moveToTop() {
+    delay = 2000
+    /* hLetters.forEach( x => {
+      x.classList.remove("animate__animated", "animate__fadeIn")
+      x.style.fontSize = "4em"
+      x.style.marginTop = "1rem"
+      //delay += 500
+    }) */
+    setTimeout(function () {
+      hLetters.forEach( x => {
+        x.classList.remove("animate__animated", "animate__fadeIn")
+        x.style.fontSize = "4em"
+        x.style.marginTop = "1rem"
+        //delay += 500
+      }, delay)
+    })
+    console.log(hLetters[hLetters.length - 1])
+    hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
+    //hLetters[hLetters.length - 1].addEventListener("animationend", fadeInGame)
+    //(function (){
+      const gameContainer = document.querySelector(".gameContainer")
+      gameContainer.classList.add("animate__animated", "animate__fadeInUp")
+      gameContainer.style.display = "flex"
+      setTimeout(function () {
+        const controlsContainer = document.getElementById("controlsContainer")
+        controlsContainer.classList.add("animate__animated", "animate__fadeIn")
+        controlsContainer.style.display = "block"
+      }, 500)
+    //})();
+
+    
+  }
+
   // add 200 squares to grid plus 10 for bottom row to stop tetros
   for (let i = 0; i < 210; i++) {
     let div = document.createElement("div")
@@ -26,30 +79,24 @@ document.addEventListener("DOMContentLoaded", () => {
     upNextGrid.appendChild(div)
   }
 
-  // the tetros
-  const lTetro = [
-    [1, 2, width + 1, width * 2 + 1],
-    [0, 1, 2, width +2],
-    [1, width + 1, width * 2, width * 2 + 1],
-    [0, width, width + 1, width + 2]
-  ] 
-  const tTetro = [
-    [1, width, width + 1, width +2],
-    [1, width + 1, width +2, width * 2 +1],
-    [0, 1, 2, width + 1],
-    [1, width, width + 1, width * 2 + 1]
-  ]
+  // the tetrominoes
   const iTetro = [
     [1, width + 1, width * 2 + 1, width * 3 + 1],
     [width, width + 1, width + 2, width + 3],
     [1, width + 1, width * 2 + 1, width * 3 + 1],
     [width, width + 1, width + 2, width + 3]
   ]
-  const zTetro = [
-    [1, 2, width, width + 1],
-    [0, width, width + 1, width * 2 +1],
-    [1, 2, width, width + 1],
-    [0, width, width + 1, width * 2 +1]
+  const jTetro = [
+    [1, 2, width + 1, width * 2 + 1],
+    [0, 1, 2, width +2],
+    [1, width + 1, width * 2, width * 2 + 1],
+    [0, width, width + 1, width + 2]
+  ] 
+  const lTetro = [
+    [0, 1, width + 1, width * 2 +1],
+    [2, width, width + 1, width + 2],
+    [1, width + 1, width * 2 + 1, width * 2 + 2],
+    [width, width + 1, width + 2, width * 2]
   ]
   const oTetro = [
     [0, 1, width, width + 1],
@@ -57,11 +104,29 @@ document.addEventListener("DOMContentLoaded", () => {
     [0, 1, width, width + 1],
     [0, 1, width, width + 1]
   ]
-
-  const tetros = [lTetro, tTetro, iTetro, zTetro, oTetro]
+  const sTetro = [
+    [1, 2, width, width + 1],
+    [0, width, width + 1, width * 2 +1],
+    [1, 2, width, width + 1],
+    [0, width, width + 1, width * 2 +1]
+  ]
+  const tTetro = [
+    [1, width, width + 1, width +2],
+    [1, width + 1, width +2, width * 2 +1],
+    [0, 1, 2, width + 1],
+    [1, width, width + 1, width * 2 + 1]
+  ]
+  const zTetro = [
+    [width, width + 1, width * 2 + 1, width * 2 + 2],
+    [1, width, width + 1, width * 2],
+    [width, width + 1, width * 2 + 1, width * 2 + 2],
+    [1, width, width + 1, width * 2]
+  ]
+  
+   const tetros = [iTetro, jTetro, lTetro, oTetro, sTetro, tTetro, zTetro]
 
   // for testing
-  //const tetros = [iTetro]
+  //const tetros = [lTetro]
 
   let currentPosition = 4    // position on grid
   
@@ -391,11 +456,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextGridWidth = 5
   
   const upNextTetros = [
-    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 3],         // lTetro
-    [nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3], // tTetro
     [2, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 3 + 2],                     // iTetro
-    [nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],     // zTetro
-    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2]      // oTetro
+    [2, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],         // jTetro
+    [2, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3],            // lTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],      // oTetro
+    [nextGridWidth + 2, nextGridWidth + 3, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2],     // sTetro
+    [nextGridWidth + 2, nextGridWidth * 2 + 1, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3], // tTetro
+    [nextGridWidth + 1, nextGridWidth + 2, nextGridWidth * 2 + 2, nextGridWidth * 2 + 3]         // zTetro  
   ] 
 
   // display up next tetro
@@ -447,7 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function endGame() {
     if (tetro.some( num => squares[currentPosition + num].classList.contains("taken"))) {
       playing = false
-      gameOver.classList.add("animated", "flash")
+      gameOver.classList.add("animate__animated", "animate__flash")
       gameOver.style.display = "flex"
       gameOver.style.visibility = "visible"
       upNextGrid.style.display = "none"
@@ -463,10 +530,12 @@ document.addEventListener("DOMContentLoaded", () => {
     playing = false
     score.innerHTML = "0"
     gameOver.style.visibility = "hidden"
-    gameOver.classList.remove("animated", "flash")
+    gameOver.classList.remove("animate__animated", "animate__flash")
     gameOver.style.display = "none"
     upNextGrid.style.display = "flex"
     playPauseBtn.innerHTML = 'PLAY <i class="fa fa-play"></i>'
+    currentPosition = 4
+    clearInterval(gravity)
     for (let i = 0; i < 200; i++) {
       squares[i].classList.remove("taken", "tetro")
       squares[i].style.backgroundColor = ""
