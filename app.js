@@ -4,16 +4,51 @@ document.addEventListener("DOMContentLoaded", () => {
   const score = document.getElementById("score")
   const gameOver = document.getElementById("gameOver")
   const playPauseBtn = document.getElementById("playPauseBtn")
-  //const tetroColors = ["red", "green", "orange", "purple", "blue", "yellow", "brown"]
   const tetroColors = [
-    "orange",    // i
-    "red",    // j
-    "rgb(31, 209, 221)",    // l
-    "blue",    // 0 
-    "purple",    // s 
-    "green",    // t 
-    "yellow"    // z
+    "orange",              // i
+    "red",                 // j
+    "rgb(31, 209, 221)",   // l
+    "blue",                // 0 
+    "purple",              // s 
+    "green",               // t 
+    "yellow"               // z
   ]
+  
+  // sidebar hide and show
+  const sidebar = document.getElementById("sidebar") 
+  const closeSidebar = document.getElementById("closeSidebar")
+  const openSidebar = document.getElementById("openSidebar")
+
+  closeSidebar.addEventListener("click", handleSidebar)
+  openSidebar.addEventListener("click", handleSidebar)
+
+  function handleSidebar() {
+    if (sidebar.style.display == "none") {
+      sidebar.style.display = "block"
+    } else {
+      sidebar.style.display = "none"
+    }
+  }
+
+  // instructions modal
+  const instrutcions = document.getElementById("instructions")
+  const closeInstructions = document.getElementById("closeInstructions")
+  const showInstructions = document.getElementById("showInstructions")
+
+  closeInstructions.addEventListener("click", handleInstructions)
+  showInstructions.addEventListener("click", handleInstructions)
+
+  function handleInstructions(e) {
+    console.log(instrutcions.style.display)
+    if (instrutcions.style.display == "none") {
+      instrutcions.style.display = "block"
+      handleSidebar()
+    } else {
+      instrutcions.style.display = "none"
+    }
+  }
+
+  // intro animations
   const hLetters = document.querySelectorAll(".hLetter")
   let delay = 0
 
@@ -28,35 +63,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function moveToTop() {
     delay = 2000
-    /* hLetters.forEach( x => {
-      x.classList.remove("animate__animated", "animate__fadeIn")
-      x.style.fontSize = "4em"
-      x.style.marginTop = "1rem"
-      //delay += 500
-    }) */
+    const fontSizeEnd = getComputedStyle(document.body).getPropertyValue("--hLetterFontSizeEnd")
+    const gameContainer = document.querySelector(".gameContainer")
+    const controlsContainer = document.getElementById("controlsContainer")
+    const display = getComputedStyle(document.body).getPropertyValue("--controlsDisplay")
+
     setTimeout(function () {
       hLetters.forEach( x => {
         x.classList.remove("animate__animated", "animate__fadeIn")
-        x.style.fontSize = "4em"
+        x.style.fontSize = fontSizeEnd
         x.style.marginTop = "1rem"
-        //delay += 500
       }, delay)
     })
-    console.log(hLetters[hLetters.length - 1])
-    hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
-    //hLetters[hLetters.length - 1].addEventListener("animationend", fadeInGame)
-    //(function (){
-      const gameContainer = document.querySelector(".gameContainer")
-      gameContainer.classList.add("animate__animated", "animate__fadeInUp")
-      gameContainer.style.display = "flex"
-      setTimeout(function () {
-        const controlsContainer = document.getElementById("controlsContainer")
-        controlsContainer.classList.add("animate__animated", "animate__fadeIn")
-        controlsContainer.style.display = "block"
-      }, 500)
-    //})();
 
-    
+    hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
+    gameContainer.classList.add("animate__animated", "animate__fadeInUp")
+    gameContainer.style.display = "flex"
+
+    setTimeout(function () {
+      controlsContainer.classList.add("animate__animated", "animate__fadeIn")
+      controlsContainer.style.display = display
+      openSidebar.classList.add("animate__animated", "animate__fadeIn")
+      openSidebar.style.display = "block"
+    }, 500)
   }
 
   // add 200 squares to grid plus 10 for bottom row to stop tetros
