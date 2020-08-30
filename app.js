@@ -186,8 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  //draw()
-
   // undraw tetro
   function undraw() {
     tetro.forEach( num => {
@@ -262,10 +260,20 @@ document.addEventListener("DOMContentLoaded", () => {
       tetro = tetros[currentTetro][randomRotation()]
       upNextTetro = Math.floor(Math.random() * tetros.length)  
       currentPosition = 4
-      displayNextTetro()
-      scorePoints()
-      draw()
-      endGame()
+      //displayNextTetro()
+      //console.log("score points")
+      let clearingSquares = scorePoints()
+      if (clearingSquares) clearInterval(gravity)
+      //console.log("clearingSquares " + clearingSquares)
+      if (!clearingSquares) {
+        //console.log("deisplay next tetro")
+        displayNextTetro()
+        //console.log("draw")
+        draw()
+        //console.log("end game")
+        endGame()
+        //gravity = setInterval(dropDown, speed)
+      }
     }
   }
 
@@ -514,29 +522,59 @@ document.addEventListener("DOMContentLoaded", () => {
   function scorePoints() {
     let rowsCleared = 0,
         pointsScored = 0
+        rowsToClear = []
     for (let i = 0; i < 199; i += width) {
       let row = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8, i + 9]
   
       if (row.every( num => squares[num].classList.contains("taken"))) {
-        //points += 10
-        //score.innerHTML = points
         rowsCleared++
-        //console.log(rowsCleared)
         pointsScored += 10
-        //console.log(pointsScored)
-        row.forEach( num => {
-          squares[num].classList.remove("taken", "tetro")
-          squares[num].style.backgroundColor = ""
-          squares[num].style.borderColor = "transparent"
-        })
-        // remove row and put it at the beginning
-        squares = squares.splice(i, width).concat(squares)
-        squares.forEach( square => grid.appendChild(square))
+        rowsToClear.push(row)
       }
     }
-    points += (rowsCleared * pointsScored)
-    // if (points > 10000000) end game
-    score.innerHTML = points
+    if (rowsToClear.length > 0) {
+      playPause()
+      clearingSquares = true
+      let lastRow = rowsToClear[rowsToClear.length - 1]
+      let lastSq = lastRow[lastRow.length - 1]
+      //console.log(lastSq)
+      squares[lastSq].addEventListener("animationend", clearRows)
+      //console.log(rowsToClear)
+      rowsToClear.forEach( row => {
+        row.forEach( sq => {
+          squares[sq].classList.add("animate__animated", "animate__flash")
+        })
+      })
+
+      function clearRows() {
+        //console.log("animation end")
+        squares[lastSq].removeEventListener("animationend", clearRows)
+        rowsToClear.forEach( row => {
+          //console.log("clearing squares")
+          row.forEach( sq => {
+            squares[sq].classList.remove("taken", "tetro", "animate__animated", "animate__flash")
+            squares[sq].style.backgroundColor = ""
+            squares[sq].style.borderColor = "transparent"
+          })
+          //console.log("concatinating squares")
+          squares = squares.splice(row[0], width).concat(squares)
+          squares.forEach( square => grid.appendChild(square))
+        })
+        displayNextTetro()
+        draw()
+        endGame()
+        playPause()
+      }
+
+      points += (rowsCleared * pointsScored)
+      // if (points > 10000000) end game
+      score.innerHTML = points
+      //console.log("reset gravity")
+      gravity = setInterval(dropDown, speed)
+      return true
+    } else {
+      return false
+    }
   }
 
   // game over
