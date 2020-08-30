@@ -5,21 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tetris</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Sidebar -->
+  <div class="w3-sidebar w3-bar-block w3-border-right" id="sidebar" style="display: none;">
+    <button id="closeSidebar" class="w3-bar-item w3-large">Close &times;</button>
+    <a href="javascript:void(0)" id="showInstructions" class="w3-bar-item w3-button">Instructions</a>
+    <a href="#" class="w3-bar-item w3-button">Turn Off Audio</a>
+    <!-- <a href="#" class="w3-bar-item w3-button">Link 3</a> -->
+  </div>
+  <button id="openSidebar" class="w3-button w3-xlarge">☰</button>
 
   <div class="pageContainer">
     <header>
-      <h1>TETRIS</h1>
+      <div class="hLetter">T</div>
+      <div class="hLetter">E</div>
+      <div class="hLetter">T</div>
+      <div class="hLetter">R</div>
+      <div class="hLetter">I</div>
+      <div class="hLetter">S</div>
     </header>
     <div class="gameContainer">
       <div class="grid"></div>
       <div class="gameStats">
         <div class="scoreContainer">
-          <h3>SCORE</h3>
-          <h3 id="score">0</h3>
+          <p>SCORE</p>
+          <p id="score">0</p>
         </div>
         <div class="upNext">
           <p>NEXT</p>
@@ -48,6 +63,30 @@
   </div>
 
   <!-- Instructions modal -->
+  <div id="instructions" class="w3-modal" style="display: none;">
+    <div class="w3-modal-content w3-animate-top">
+      <div class="w3-container">
+        <span id="closeInstructions" class="w3-button w3-display-topright">&times;</span>
+        <h1>Controls</h1>
+        <h3>Desktop</h3>
+        <p>Rotate: spacebar.</p>
+        <p>Move left: left arrow.</p>
+        <p>Move right: right arrow.</p>
+        <p>Move down: down arrow.</p>
+        <h3>Mobile</h3>
+        <p>Rotate: <i class="fas fa-sync"></i> button.</p>
+        <p>Move left: <i class="fas fa-arrow-left"></i> button.</p>
+        <p>Move right: <i class="fas fa-arrow-right"></i> button.</p>
+        <p>Move down: <i class="fas fa-arrow-down"></i> button.</p>
+        <h1>Scoring</h1>
+        <p>Fill a horizontal row with blocks to clear it from the game board.</p>
+        <p>One cleared row is worth 10 points.</p>
+        <p>The number of rows cleared with a single tetromino multiplies the row scores by the number of rows cleared at once.</p>
+        <p>For example, 2 rows cleared at once = 40 points (10 points per row = 20 row points.  20 row points X 2 rows cleared at once = 40 points total).</p>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.0/gsap.min.js"></script>
   <script src="app.js"></script>
 </body>

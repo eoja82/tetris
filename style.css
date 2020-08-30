@@ -1,43 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;800&display=swap');
+
 :root {
-  --borderColor: rgb(0, 255, 191);
+  --borderColor: rgb(216, 216, 216);
   --borderRadius: 3px;
   --gameBackground: black;
-  --gridWidth: 200px;
-  --gridHeight: 400px;
-  --gridDivWidth: 16px;
-  --gridDivHeight: 16px;
+  --gridWidth: 204px;
+  --gridHeight: 404px;
+  --gridDivWidth: 20px;
+  --gridDivHeight: 20px;
   --upNextGridWidth: 100px;
   --upNextGridHeight: 80px;
   --controlPaddingSide: 2rem;
   --controlPaddingBottom: 2rem;
+  --hLetterFontSizeStart: 8rem;
+  --hLetterFontSizeEnd: 4rem;
+  --controlsDisplay: none;
+}
+@media (hover: none) {
+  :root {
+    --controlsDisplay: block;
+  }
 }
 @media only screen and (max-height: 570px) {
   :root {
-    --gridWidth: 160px;
-    --gridHeight: 320px;
-    --gridDivWidth: 12px;
-    --gridDivHeight: 12px;
+    --gridWidth: 164px;
+    --gridHeight: 324px;
+    --gridDivWidth: 16px;
+    --gridDivHeight: 16px;
     --upNextGridWidth: 80px;
     --upNextGridHeight: 64px;
     --controlPaddingSide: 1rem;
     --controlPaddingBottom: 1rem;
   }
 }
+@media only screen and (max-width: 440px) {
+  :root {
+    --hLetterFontSizeStart: 4rem;
+    --hLetterFontSizeEnd: 3rem;
+  }
+}
 body {
+  font-family: 'Orbitron', sans-serif;
   box-sizing: border-box;
   background-color: rgb(31, 31, 31);
   margin: 0;
   padding: 0;
 }
+#sidebar {
+  background-color: rgb(230, 230, 230);
+}
+#openSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  color: rgb(230, 230, 230);
+}
+.w3-modal {
+  padding-top: 75px;
+  padding-bottom: 25px;
+}
+.w3-modal-content {
+  background-color: rgb(206, 206, 206);
+  overflow-x: scroll;
+}
+#instructions h1,
+#instructions h3,
+#instructions p {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.1;
+}
 header {
-  text-align: center;
-  color: #2988ce;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.hLetter {
+  font-size: var(--hLetterFontSizeStart);
+  font-weight: 800;
+  padding: .25rem;
+  margin-top: 15rem;
+  transition: 1s
 }
 .pageContainer {
   display: flex;
   flex-direction: column;
   max-width: 80%;
-  margin: 1.5rem auto;
+  margin: 0 auto;
   justify-content: center;
 }
 .scoreContainer {
@@ -46,23 +96,20 @@ header {
   border-radius: var(--borderRadius);
   margin: 0 0 .75rem;
   color: white;
-  
- /*  width: 100%; */
 }
-.scoreContainer h3 {
+.scoreContainer p {
   font-size: .9rem;
-  /* width: 50%; */
   text-align: center;
-  /* a change */
   margin: .5rem;
 }
 #score {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .gameContainer {
-  display: flex;
+  display: none;
+  /* change back for animations */
+  /* display: flex; */
   background-color: rgb(92, 92, 92);
-  /* max-width: 100%; */
   padding: 1.75rem;
   margin: 0 auto;
   justify-content: center;
@@ -72,18 +119,15 @@ header {
   height: var(--gridHeight);
   display: flex;
   flex-wrap: wrap;
-  /* background-color: rgb(165, 165, 165); */
   background-color: var(--gameBackground);
   border: 2px solid var(--borderColor);
   border-radius: var(--borderRadius);
-  /* padding: .5rem; */
 }
 .grid div {
   width: var(--gridDivWidth);
   height: var(--gridDivHeight);
   border: 2px outset;
   border-color: transparent;
-  /* background-color: rgb(165, 165, 165); */
 }
 .gameStats {
   max-width: 100px;
@@ -105,7 +149,6 @@ header {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 16px;
-  /* background-color: rgb(31, 31, 31); */
 }
 .upNextGrid div {
   width: var(--gridDivWidth);
@@ -140,6 +183,8 @@ header {
 }
 #controlsContainer {
   display: none;
+  /* change back for animations */
+  /* display: block; */
 }
 @media (hover: none) {
   #controlsContainer {
@@ -147,7 +192,9 @@ header {
     bottom: 200px;
     left: 0;
     width: 100vw;
-    display: block;
+    display: none;
+    /* change back for animations */
+    /* display: block; */
   }
   .controlButton {
     width: 60px;
@@ -157,7 +204,7 @@ header {
     border-radius: 50%;
     border: none;
     color: white;
-    background-color: red;
+    background-color: rgb(92, 92, 92);
     /* -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; */
@@ -181,7 +228,7 @@ header {
     margin-left: 1rem;
   }
 }
-@media only screen and (max-height: 570px) {
+@media only screen and (max-height: 815px) { /* 570 */
   #playPauseBtn, #reset {
     margin-top: .7rem;
   }
@@ -201,6 +248,7 @@ header {
   }
   .gameContainer {
     padding: 5px;
+    margin-bottom: 100px;
   }
   .gameStats {
     margin-left: 5px;
