@@ -57,18 +57,30 @@ body {
   color: rgb(230, 230, 230);
 }
 .w3-modal {
-  padding-top: 75px;
+  padding-top: 50px;
   padding-bottom: 25px;
 }
 .w3-modal-content {
   background-color: rgb(206, 206, 206);
   overflow-x: scroll;
 }
+#instructions .w3-container {
+  padding: .5rem 1.5rem;
+}
 #instructions h1,
 #instructions h3,
 #instructions p {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.1;
+}
+#instructions h3 {
+  padding-left: 1rem;
+}
+.controlP {
+  padding-left: 2rem;
+}
+.scoringP {
+  padding-left: 1rem;
 }
 header {
   display: flex;
