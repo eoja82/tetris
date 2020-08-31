@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const score = document.getElementById("score")
   const gameOver = document.getElementById("gameOver")
   const playPauseBtn = document.getElementById("playPauseBtn")
+  const rotateSound = document.getElementById("rotateSound")
+  const landSound = document.getElementById("landSound")
+  const scoreSound = document.getElementById("scoreSound")
   const tetroColors = [
     "orange",              // i
     "red",                 // j
@@ -13,20 +16,35 @@ document.addEventListener("DOMContentLoaded", () => {
     "green",               // t 
     "yellow"               // z
   ]
+
   
-  // hide / show sidebar nav
+  
+  // hide / show sidebar nav, handle sound
   const sidebar = document.getElementById("sidebar") 
   const closeSidebar = document.getElementById("closeSidebar")
   const openSidebar = document.getElementById("openSidebar")
+  const mute = document.getElementById("mute")
+  let soundOn = true
 
   closeSidebar.addEventListener("click", handleSidebar)
   openSidebar.addEventListener("click", handleSidebar)
+  mute.addEventListener("click", handleSound)
 
   function handleSidebar() {
     if (sidebar.style.display == "none") {
       sidebar.style.display = "block"
     } else {
       sidebar.style.display = "none"
+    }
+  }
+
+  function handleSound() {
+    if (soundOn) {
+      soundOn = false
+      mute.innerText = "Turn Sound On"
+    } else {
+      soundOn = true
+      mute.innerText = "Turn Sound Off"
     }
   }
 
@@ -264,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // if clearingSquares == false game play is handled here
       // else game play is handled in scorePoints() after rows are cleared
       if (!clearingSquares) {
+        if (soundOn) landSound.play()
         displayNextTetro()
         draw()
         endGame()
@@ -325,6 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } 
     draw()
     stopTetro()
+    if (soundOn) rotateSound.play()
     return false
   }
 
@@ -503,6 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (rowsToClear.length > 0) {
       // points scored, need to total points and clear rows
       playPause()
+      if (soundOn) scoreSound.play()
       let lastRow = rowsToClear[rowsToClear.length - 1],
           lastSq = lastRow[lastRow.length - 1]
 
