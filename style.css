@@ -119,8 +119,6 @@ header {
 }
 .gameContainer {
   display: none;
-  /* change back for animations */
-  /* display: flex; */
   background-color: rgb(92, 92, 92);
   padding: 1.75rem;
   margin: 0 auto;
@@ -174,12 +172,21 @@ header {
   margin-top: 1.5rem;
   padding: .5rem 0;
   font-size: 1rem;
-  border: 1px solid transparent;
-  border-radius: 18.5px;
-  background-color: #2988ce;
+  color: white;
+  border: 2px solid var(--borderColor);
+  border-radius: var(--borderRadius);
+  background-color: var(--gameBackground);
 }
 .fa {
-  font-size: .75rem;
+  font-size: .825rem;
+}
+#playPauseBtn:hover, #playPauseBtn:focus {
+  background-color: orange;
+  border: 2px solid orange;
+}
+#reset:hover, #reset:focus {
+  background-color: red;
+  border: 2px solid red;
 }
 #gameOver {
   font-size: 1.25rem;
@@ -195,8 +202,6 @@ header {
 }
 #controlsContainer {
   display: none;
-  /* change back for animations */
-  /* display: block; */
 }
 @media (hover: none) {
   #controlsContainer {
@@ -205,8 +210,6 @@ header {
     left: 0;
     width: 100vw;
     display: none;
-    /* change back for animations */
-    /* display: block; */
   }
   .controlButton {
     width: 60px;
@@ -217,9 +220,6 @@ header {
     border: none;
     color: white;
     background-color: rgb(92, 92, 92);
-    /* -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; */
   }
   #leftControls {
     float: left;
@@ -240,7 +240,7 @@ header {
     margin-left: 1rem;
   }
 }
-@media only screen and (max-height: 815px) { /* 570 */
+@media only screen and (max-height: 815px) {
   #playPauseBtn, #reset {
     margin-top: .7rem;
   }
@@ -252,6 +252,11 @@ header {
   }
   #controlsContainer {
     bottom: 0;
+  }
+}
+@media only screen and (max-height: 570px) {
+  #playPauseBtn, #reset {
+    margin-top: .45rem;
   }
 }
 @media only screen and (max-width: 440px) {
