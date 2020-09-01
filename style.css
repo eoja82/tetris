@@ -192,13 +192,14 @@ header {
   font-size: 1.25rem;
   font-weight: bold;
   text-align: center;
-  max-width: 100px;
+  width: 100px;
   height: 80px;
   color: red;
   display: none;
   visibility: hidden;
+  justify-content: center;
   animation-duration: 2s;
-  margin: .75rem 0 16px;
+  margin: .75rem auto 16px;
 }
 #controlsContainer {
   display: none;
