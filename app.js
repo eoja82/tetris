@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "green",               // t 
     "yellow"               // z
   ]
-
-  
+  let winngingScore = 1000
+  let gamelevel = winngingScore / 10
   
   // hide / show sidebar nav, handle sound
   const sidebar = document.getElementById("sidebar") 
@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
   showInstructions.addEventListener("click", handleInstructions)
 
   function handleInstructions(e) {
-    console.log(instrutcions.style.display)
     if (instrutcions.style.display == "none") {
       instrutcions.style.display = "block"
       handleSidebar()
@@ -546,15 +545,22 @@ document.addEventListener("DOMContentLoaded", () => {
           squares = squares.splice(row[0], width).concat(squares)
           squares.forEach( square => grid.appendChild(square))
         })
-        displayNextTetro()
-        draw()
-        endGame()
-        playPause()
-      }
 
-      points += (rowsCleared * pointsScored)
-      // if (points > 100000) end game?
-      score.innerHTML = points
+        points += (rowsCleared * pointsScored)
+        score.innerHTML = points
+        if (points >= winngingScore) {
+          winGame()
+        } else {
+          if (points > gamelevel) {
+            speed -= 100
+            gamelevel += winngingScore / 10
+          }
+          displayNextTetro()
+          draw()
+          endGame()
+          playPause()
+        }
+      }
       return true
     } else {
       // no points scored
@@ -574,6 +580,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // wind game 
+  function winGame() {
+    playing = false
+    gameOver.innerText = "WINNER!"
+    gameOver.style.color = "green"
+    gameOver.classList.add("animate__animated", "animate__flash")
+    gameOver.style.display = "flex"
+    gameOver.style.visibility = "visible"
+    upNextGrid.style.display = "none"
+    clearInterval(gravity)
+  }
+
   // reset game
   const reset = document.getElementById("reset")
   
@@ -581,10 +599,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetGame() {
     playing = false
+    speed = 1000
     score.innerHTML = "0"
     gameOver.style.visibility = "hidden"
     gameOver.classList.remove("animate__animated", "animate__flash")
     gameOver.style.display = "none"
+    gameOver.innerText = "GAME OVER"
+    gameOver.style.color = "RED"
     upNextGrid.style.display = "flex"
     playPauseBtn.innerHTML = 'PLAY <i class="fa fa-play"></i>'
     currentPosition = 4
