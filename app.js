@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const width = 10
+  const gameContainer = document.querySelector(".gameContainer")
+  const controlsContainer = document.getElementById("controlsContainer")
   const grid = document.querySelector(".grid")
   const score = document.getElementById("score")
   const gameOver = document.getElementById("gameOver")
@@ -65,6 +67,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // prevent screen zoom on mobile if user misses control buttons
+  gameContainer.addEventListener("click", pvDefault)
+  controlsContainer.addEventListener("click", pvDefault)
+
+  function pvDefault(e) {
+    e.preventDefault()
+    return
+  }
+
   // intro animations
   const hLetters = document.querySelectorAll(".hLetter")
   let delay = 0
@@ -81,18 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function moveToTop() {
     delay = 2000
     const fontSizeEnd = getComputedStyle(document.body).getPropertyValue("--hLetterFontSizeEnd")
-    const gameContainer = document.querySelector(".gameContainer")
-    const controlsContainer = document.getElementById("controlsContainer")
     const display = getComputedStyle(document.body).getPropertyValue("--controlsDisplay")
-
-    // prevent screen zoom on mobile if user misses control buttons
-    gameContainer.addEventListener("click", pvDefault)
-    controlsContainer.addEventListener("click", pvDefault)
-
-    function pvDefault(e) {
-      e.preventDefault()
-      return
-    }
 
     // shrink font-size and move to top of screen
     setTimeout(function () {
