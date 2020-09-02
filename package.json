@@ -1,0 +1,28 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Tetris Game",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "gh-pages -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eoja82/tetris.git"
+  },
+  "keywords": [
+    "tetris",
+    "game",
+    "play"
+  ],
+  "author": "Erik Oja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eoja82/tetris/issues"
+  },
+  "homepage": "https://github.com/eoja82/tetris#readme",
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
+  }
+}
