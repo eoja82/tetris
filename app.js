@@ -85,6 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const controlsContainer = document.getElementById("controlsContainer")
     const display = getComputedStyle(document.body).getPropertyValue("--controlsDisplay")
 
+    // prevent screen zoom on mobile if user misses control buttons
+    gameContainer.addEventListener("click", pvDefault)
+    controlsContainer.addEventListener("click", pvDefault)
+
+    function pvDefault(e) {
+      e.preventDefault()
+      return
+    }
+
     // shrink font-size and move to top of screen
     setTimeout(function () {
       hLetters.forEach( x => {
