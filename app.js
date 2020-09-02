@@ -591,7 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // wind game 
+  // win game 
   function winGame() {
     playing = false
     gameOver.innerText = "WINNER!"
