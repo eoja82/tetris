@@ -241,6 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function playPause(e) {
     // if e the user clicked play/pause button, else this function is called in the code
     if (e) e.preventDefault()
+    // need to lose button focus on chrome otherwise the spacebar activates the button
+    playPauseBtn.blur()
     if (playing) {
       clearInterval(gravity)
       playing = false
@@ -560,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (points >= winngingScore) {
           winGame()
         } else {
-          if (points > gamelevel) {
+          if (points >= gamelevel) {
             speed -= 100
             gamelevel += winngingScore / 10
           }
@@ -608,6 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetGame() {
     playing = false
+    gamelevel = winngingScore / 10
     speed = 1000
     score.innerHTML = "0"
     gameOver.style.visibility = "hidden"
