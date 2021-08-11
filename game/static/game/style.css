@@ -48,13 +48,17 @@ body {
 }
 #sidebar {
   background-color: rgb(230, 230, 230);
+  right: 0;
 }
 #openSidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   display: none;
   color: rgb(230, 230, 230);
+}
+#closeSidebar {
+  cursor: pointer;
 }
 .w3-modal {
   padding-top: 50px;
