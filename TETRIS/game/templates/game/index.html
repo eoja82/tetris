@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{% static 'game/style.css' %}">
 </head>
 <body>
   <!-- Sidebar -->
@@ -96,6 +98,6 @@
   <audio id="landSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/dkong/5[kb]effect02.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
   <audio id="scoreSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/berzerk/20[kb]30.wav.mp3" type="audio/mpeg"></audio>
 
-  <script src="app.js"></script>
+  <script src="{% static 'game/client.js' %}"></script>
 </body>
 </html>
