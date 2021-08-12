@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // intro animations
+  const userNav = document.getElementById("userNav")
   const hLetters = document.querySelectorAll(".hLetter")
   let delay = 0
 
@@ -109,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameContainer.style.display = "flex"
 
     setTimeout(function () {
+      userNav.classList.add("animate__animated", "animate__fadeIn")
+      userNav.style.display = "block"
       controlsContainer.classList.add("animate__animated", "animate__fadeIn")
       controlsContainer.style.display = display
       openSidebar.classList.add("animate__animated", "animate__fadeIn")
