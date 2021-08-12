@@ -17,12 +17,12 @@
 </head>
 <body>
   <!-- Sidebar -->
-  <div class="w3-sidebar w3-bar-block w3-border-right" id="sidebar" style="display: none;">
-    <button id="closeSidebar" class="w3-bar-item w3-large">Close &times;</button>
-    <a href="javascript:void(0)" id="showInstructions" class="w3-bar-item w3-button">Instructions</a>
-    <a id="mute" href="javascript:void(0)" class="w3-bar-item w3-button">Turn Sound Off</a>
+  <div class="w3-sidebar w3-bar-block w3-border-right" id="sidebar">
+    <button id="closeSidebar" class="w3-bar-item w3-large w3-hover-green">Close &times;</button>
+    <a href="javascript:void(0)" id="showInstructions" class="w3-bar-item w3-button w3-hover-green">Instructions</a>
+    <a id="mute" href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-green">Turn Sound Off</a>
   </div>
-  <button id="openSidebar" class="w3-button w3-xlarge">☰</button>
+  <button id="openSidebar" class="w3-button w3-large w3-hover-green">☰</button>
 
   <div class="pageContainer">
     <header>
@@ -33,6 +33,18 @@
       <div class="hLetter">I</div>
       <div class="hLetter">S</div>
     </header>
+
+    <div id="userNav">
+      {% if user.is_authenticated %}
+        <h5>Good luck {{ user.username }}!</h5>
+      {% else %}
+        <nav class="w3-bar">
+          <button id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</button>
+          <button id="register" class="w3-btn w3-medium w3-hover-green authentication">Register</button>
+        </nav>
+      {% endif %}
+    </div>
+
     <div class="gameContainer">
       <div class="grid"></div>
       <div class="gameStats">
@@ -53,15 +65,17 @@
         </div>
       </div>
     </div>
+
+    <!-- game controls for mobile -->
     <div id="controlsContainer">
-        <div id="leftControls">
-          <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
-          <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
-        </div>
-        <div id="rightControls">
-          <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
-          <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
-        </div>
+      <div id="leftControls">
+        <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
+        <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
+      </div>
+      <div id="rightControls">
+        <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
+        <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
+      </div>
     </div>
     
   </div>
