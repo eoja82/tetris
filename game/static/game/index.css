@@ -45,8 +45,6 @@ body {
   background-color: rgb(31, 31, 31);
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  overflow: hidden;
 }
 #userNav {
   position: fixed;
@@ -61,7 +59,6 @@ body {
 #sidebar {
   background-color: rgb(230, 230, 230);
   right: 0;
-  display: none;
 }
 #openSidebar {
   position: fixed;
