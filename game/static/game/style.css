@@ -46,9 +46,20 @@ body {
   margin: 0;
   padding: 0;
 }
+#userNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  max-width: 80%;
+  display: none;
+}
+.authentication {
+  color: rgb(216, 216, 216);
+}
 #sidebar {
   background-color: rgb(230, 230, 230);
   right: 0;
+  display: none;
 }
 #openSidebar {
   position: fixed;
