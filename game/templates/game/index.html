@@ -8,104 +8,105 @@
 
 
 {% block body %}
-  <!-- Sidebar -->
-  <div class="w3-sidebar w3-bar-block w3-border-right" id="sidebar" style="display: none;">
-    <button id="closeSidebar" class="w3-bar-item w3-large w3-hover-green">Close &times;</button>
-    <a href="javascript:void(0)" id="showInstructions" class="w3-bar-item w3-button w3-hover-green">Instructions</a>
-    <a id="mute" href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-green">Turn Sound Off</a>
-  </div>
-  <button id="openSidebar" class="w3-button w3-large w3-hover-green">☰</button>
+  <body>
+    <!-- Sidebar -->
+    <div class="w3-sidebar w3-bar-block w3-border-right" id="sidebar" style="display: none;">
+      <button id="closeSidebar" class="w3-bar-item w3-large w3-hover-green">Close &times;</button>
+      <a href="javascript:void(0)" id="showInstructions" class="w3-bar-item w3-button w3-hover-green">Instructions</a>
+      <a id="mute" href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-green">Turn Sound Off</a>
+    </div>
+    <button id="openSidebar" class="w3-button w3-large w3-hover-green">☰</button>
 
-  <div class="pageContainer">
-    <header>
-      <div class="hLetter">T</div>
-      <div class="hLetter">E</div>
-      <div class="hLetter">T</div>
-      <div class="hLetter">R</div>
-      <div class="hLetter">I</div>
-      <div class="hLetter">S</div>
-    </header>
+    <div class="pageContainer">
+      <header>
+        <div class="hLetter">T</div>
+        <div class="hLetter">E</div>
+        <div class="hLetter">T</div>
+        <div class="hLetter">R</div>
+        <div class="hLetter">I</div>
+        <div class="hLetter">S</div>
+      </header>
 
-    <div id="userNav">
-      {% if user.is_authenticated %}
-        <h5>Good luck {{ user.username }}!</h5>
-      {% else %}
-        <nav class="w3-bar">
-          <a id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</a>
-          <a id="register" class="w3-btn w3-medium w3-hover-green authentication">Register</a>
-        </nav>
-      {% endif %}
+      <div id="userNav">
+        {% if user.is_authenticated %}
+          <h5>Good luck {{ user.username }}!</h5>
+        {% else %}
+          <nav class="w3-bar">
+            <a id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</a>
+            <a id="register" class="w3-btn w3-medium w3-hover-green authentication">Register</a>
+          </nav>
+        {% endif %}
+      </div>
+
+      <div class="gameContainer">
+        <div class="grid"></div>
+        <div class="gameStats">
+          <div class="scoreContainer">
+            <p>SCORE</p>
+            <p id="score">0</p>
+          </div>
+          <div class="upNext">
+            <p>NEXT</p>
+            <h3 id="gameOver">GAME OVER</h3>
+            <div class="upNextGrid"></div>
+          </div>
+          <div>
+            <button id="reset">RESET <i class="fa fa-redo-alt"></i></button>
+          </div>
+          <div>
+            <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- game controls for mobile -->
+      <div id="controlsContainer">
+        <div id="leftControls">
+          <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
+          <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
+        </div>
+        <div id="rightControls">
+          <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
+          <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+      
     </div>
 
-    <div class="gameContainer">
-      <div class="grid"></div>
-      <div class="gameStats">
-        <div class="scoreContainer">
-          <p>SCORE</p>
-          <p id="score">0</p>
-        </div>
-        <div class="upNext">
-          <p>NEXT</p>
-          <h3 id="gameOver">GAME OVER</h3>
-          <div class="upNextGrid"></div>
-        </div>
-        <div>
-          <button id="reset">RESET <i class="fa fa-redo-alt"></i></button>
-        </div>
-        <div>
-          <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
+    <!-- Instructions modal -->
+    <div id="instructions" class="w3-modal" style="display: none;">
+      <div class="w3-modal-content w3-animate-top">
+        <div class="w3-container">
+          <span id="closeInstructions" class="w3-button w3-display-topright">&times;</span>
+          <h1>Controls</h1>
+          <h3>Desktop</h3>
+          <p class="controlP">Rotate: spacebar.</p>
+          <p class="controlP">Move left: left arrow.</p>
+          <p class="controlP">Move right: right arrow.</p>
+          <p class="controlP">Move down: down arrow.</p>
+          <h3>Mobile</h3>
+          <p class="controlP">Rotate: <i class="fas fa-sync"></i> button.</p>
+          <p class="controlP">Move left: <i class="fas fa-arrow-left"></i> button.</p>
+          <p class="controlP">Move right: <i class="fas fa-arrow-right"></i> button.</p>
+          <p class="controlP">Move down: <i class="fas fa-arrow-down"></i> button.</p>
+          <h1>Scoring</h1>
+          <p class="scoringP">Fill a horizontal row with blocks to clear it from the game board.</p>
+          <p class="scoringP">One cleared row is worth 10 points.</p>
+          <p class="scoringP">The number of rows cleared with a single tetromino multiplies the row scores by the number of rows cleared at once.</p>
+          <p class="scoringP">For example, 2 rows cleared at once = 40 points (10 points per row = 20 row points.  20 row points X 2 rows cleared at once = 40 points total).</p>
+          <p class="scoringP">For every 100 points scored the rate at which the tetrominoes drop will increase.</p>
+          <p class="scoringP">Score 1000 point to win the game.</p>
         </div>
       </div>
     </div>
 
-    <!-- game controls for mobile -->
-    <div id="controlsContainer">
-      <div id="leftControls">
-        <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
-        <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
-      </div>
-      <div id="rightControls">
-        <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
-        <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
-      </div>
-    </div>
-    
-  </div>
+    <!-- sounds -->
+    <audio id="rotateSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/congo/1[kb]bass.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
+    <audio id="landSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/dkong/5[kb]effect02.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
+    <audio id="scoreSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/berzerk/20[kb]30.wav.mp3" type="audio/mpeg"></audio>
 
-  <!-- Instructions modal -->
-  <div id="instructions" class="w3-modal" style="display: none;">
-    <div class="w3-modal-content w3-animate-top">
-      <div class="w3-container">
-        <span id="closeInstructions" class="w3-button w3-display-topright">&times;</span>
-        <h1>Controls</h1>
-        <h3>Desktop</h3>
-        <p class="controlP">Rotate: spacebar.</p>
-        <p class="controlP">Move left: left arrow.</p>
-        <p class="controlP">Move right: right arrow.</p>
-        <p class="controlP">Move down: down arrow.</p>
-        <h3>Mobile</h3>
-        <p class="controlP">Rotate: <i class="fas fa-sync"></i> button.</p>
-        <p class="controlP">Move left: <i class="fas fa-arrow-left"></i> button.</p>
-        <p class="controlP">Move right: <i class="fas fa-arrow-right"></i> button.</p>
-        <p class="controlP">Move down: <i class="fas fa-arrow-down"></i> button.</p>
-        <h1>Scoring</h1>
-        <p class="scoringP">Fill a horizontal row with blocks to clear it from the game board.</p>
-        <p class="scoringP">One cleared row is worth 10 points.</p>
-        <p class="scoringP">The number of rows cleared with a single tetromino multiplies the row scores by the number of rows cleared at once.</p>
-        <p class="scoringP">For example, 2 rows cleared at once = 40 points (10 points per row = 20 row points.  20 row points X 2 rows cleared at once = 40 points total).</p>
-        <p class="scoringP">For every 100 points scored the rate at which the tetrominoes drop will increase.</p>
-        <p class="scoringP">Score 1000 point to win the game.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- sounds -->
-  <audio id="rotateSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/congo/1[kb]bass.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
-  <audio id="landSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/dkong/5[kb]effect02.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
-  <audio id="scoreSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/berzerk/20[kb]30.wav.mp3" type="audio/mpeg"></audio>
-
-  {% block scripts %}
-    <script src="{% static 'game/client.js' %}"></script>
-  {% endblock %}
-
+    {% block scripts %}
+      <script src="{% static 'game/client.js' %}"></script>
+    {% endblock %}
+  </body>
 {% endblock %}
