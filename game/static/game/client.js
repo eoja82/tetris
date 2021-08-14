@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const landSound = document.getElementById("landSound")
   const scoreSound = document.getElementById("scoreSound")
   const tetroColors = [
-    "orange",              // i
-    "red",                 // j
-    "rgb(31, 209, 221)",   // l
-    "blue",                // 0 
-    "purple",              // s 
-    "green",               // t 
-    "yellow"               // z
+    "orange",              // i shape
+    "red",                 // j shape
+    "rgb(31, 209, 221)",   // l shape
+    "blue",                // 0 shape
+    "purple",              // s shape
+    "green",               // t shape
+    "yellow"               // z shape
   ]
   let winngingScore = 1000
   let gamelevel = winngingScore / 10
