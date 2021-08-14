@@ -11,14 +11,18 @@
 {% endblock %}
 
 {% block body %}
-  <a href="{% url 'index' %}"><header>
-    <div id="letter1" class="hLetter">T</div>
-    <div id="letter2" class="hLetter">E</div>
-    <div id="letter3" class="hLetter">T</div>
-    <div id="letter4" class="hLetter">R</div>
-    <div id="letter5" class="hLetter">I</div>
-    <div id="letter6" class="hLetter">S</div>
-  </header></a>
+  <header>
+    <a href="{% url 'index' %}" id="home">
+      <h1>
+        <span id="letter1" class="hLetter">T</span>
+        <span id="letter2" class="hLetter">E</span>
+        <span id="letter3" class="hLetter">T</span>
+        <span id="letter4" class="hLetter">R</span>
+        <span id="letter5" class="hLetter">I</span>
+        <span id="letter6" class="hLetter">S</span>
+      </h1>
+    </a>
+  </header>
 
   <div class="formContainer">
     <div class="formHeader">
@@ -28,13 +32,16 @@
     <form action="{% url 'register' %}" method="POST" class="w3-container">
       {% csrf_token %}
       <label for="username">Username</b></label>
-      <input type="text" name="username" id="username" class="w3-input w3-border">
+      <input type="text" name="username" id="username" class="w3-input w3-border" required>
+
+      <label for="email">Email</b></label>
+      <input type="text" name="email" id="email" class="w3-input w3-border" required>
 
       <label for="password">Password</b></label>
-      <input type="text" name="password" id="password" class="w3-input w3-border">
+      <input type="text" name="password" id="password" class="w3-input w3-border" required>
 
       <label for="confirmPassword">Confirm Password</b></label>
-      <input type="text" name="confirmPassword" id="confirmPassword" class="w3-input w3-border">
+      <input type="text" name="confirmPassword" id="confirmPassword" class="w3-input w3-border" required>
 
       <button type="submit">Submit</button>
     </form>

@@ -28,6 +28,10 @@ body {
   padding: 0;
 }
 
+#home {
+  text-decoration: none;
+}
+
 header {
   display: flex;
   flex-direction: row;
@@ -38,7 +42,6 @@ header {
 .hLetter {
   font-size: var(--hLetterFontSize);
   font-weight: 800;
-  padding: .25rem;
   margin-top: 1rem;
 }
 
@@ -75,7 +78,7 @@ header {
 
 .formHeader {
   background-color: rgb(31, 209, 221);
-  padding: 8px 16px;
+  padding: 1px 16px;
   border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 }
 
@@ -108,6 +111,10 @@ button:hover, button:focus {
 #haveAccount, #register {
   text-align: center;
   color: rgb(250, 250, 250);
+}
+
+#haveAccount a, #register a {
+  color: rgb(31, 209, 221)
 }
 
 #haveAccount a:hover, 
