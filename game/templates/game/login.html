@@ -1,0 +1,42 @@
+{% extends "game/layout.html" %}
+
+{% load static %}
+
+{% block title %}
+  Tetris - Login
+{% endblock %}
+
+{% block links %}
+  <link rel="stylesheet" href="{% static 'game/account.css' %}">
+{% endblock %}
+
+{% block body %}
+  <a href="{% url 'index' %}"><header>
+    <div id="letter1" class="hLetter">T</div>
+    <div id="letter2" class="hLetter">E</div>
+    <div id="letter3" class="hLetter">T</div>
+    <div id="letter4" class="hLetter">R</div>
+    <div id="letter5" class="hLetter">I</div>
+    <div id="letter6" class="hLetter">S</div>
+  </header></a>
+
+  <div class="formContainer">
+    <div class="formHeader">
+      <h2>Login</h2>
+    </div>
+    
+    <form action="{% url 'login' %}" method="POST" class="w3-container">
+      {% csrf_token %}
+      <label for="username">Username</b></label>
+      <input type="text" name="username" id="username" class="w3-input w3-border">
+
+      <label for="password">Password</b></label>
+      <input type="text" name="password" id="password" class="w3-input w3-border">
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <p class="w3-container" id="register">Don't have an account? <a href="{% url 'register' %}">Register here.</a></p>
+
+{% endblock %}
