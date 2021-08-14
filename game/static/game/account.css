@@ -108,6 +108,10 @@ button:hover, button:focus {
   background-color: orange;
 }
 
+#message {
+  color: red;
+}
+
 #haveAccount, #register {
   text-align: center;
   color: rgb(250, 250, 250);
