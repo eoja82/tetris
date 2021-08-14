@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;800&display=swap');
+
+:root {
+  --hLetterFontSize: 4rem;
+  --formContainerMaxWidth: 50%;
+  --borderRadius: 8px;
+}
+
+@media only screen and (max-width: 800px) {
+  :root {
+    --hLetterFontSize: 3rem;
+    --formContainerMaxWidth: 75%;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  :root {
+    --hLetterFontSize: 3rem;
+    --formContainerMaxWidth: 95%;
+  }
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  box-sizing: border-box;
+  background-color: rgb(31, 31, 31);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.hLetter {
+  font-size: var(--hLetterFontSize);
+  font-weight: 800;
+  padding: .25rem;
+  margin-top: 1rem;
+}
+
+#letter1 {
+  color: orange;
+}
+
+#letter2 {
+  color: red;
+}
+
+#letter3 {
+  color: rgb(31, 209, 221);
+}
+
+#letter4 {
+  color: blue;
+}
+
+#letter5 {
+  color: purple;
+}
+
+#letter6 {
+  color: green;
+}
+
+.formContainer {
+  max-width: var(--formContainerMaxWidth);
+  margin: 0 auto;
+  background-color: rgb(250, 250, 250);
+  border-radius: var(--borderRadius);
+}
+
+.formHeader {
+  background-color: rgb(31, 209, 221);
+  padding: 8px 16px;
+  border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+}
+
+h2 {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.formHeader, input {
+  margin-bottom: .5rem;
+}
+
+input {
+  background-color: rgb(190, 190, 190);
+  border-radius: var(--borderRadius);
+}
+
+button {
+  background-color: rgb(31, 209, 221);
+  padding: .5rem .75rem;
+  border: none;
+  border-radius: var(--borderRadius);
+  cursor: pointer;
+  margin: .6rem 0 1rem;
+}
+
+button:hover, button:focus {
+  background-color: orange;
+}
+
+#haveAccount, #register {
+  text-align: center;
+  color: rgb(250, 250, 250);
+}
+
+#haveAccount a:hover, 
+#haveAccount a:focus,
+#register a:hover,
+#register a:focus {
+  color: orange;
+}
