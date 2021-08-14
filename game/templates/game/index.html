@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="{% static 'game/index.css' %}">
 {% endblock %}
 
-
 {% block body %}
   <body>
     <!-- Sidebar -->
@@ -32,8 +31,8 @@
           <h5>Good luck {{ user.username }}!</h5>
         {% else %}
           <nav class="w3-bar">
-            <a id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</a>
-            <a id="register" class="w3-btn w3-medium w3-hover-green authentication">Register</a>
+            <a href="{% url 'login' %}" id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</a>
+            <a href="{% url 'register' %}" id="register" class="w3-btn w3-medium w3-hover-green authentication">Register</a>
           </nav>
         {% endif %}
       </div>
