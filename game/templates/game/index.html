@@ -28,7 +28,7 @@
 
       <div id="userNav">
         {% if user.is_authenticated %}
-          <h5>Good luck {{ user.username }}!</h5>
+          <h4 id="welcome">Good luck {{ user.username }}!</h4>
         {% else %}
           <nav class="w3-bar">
             <a href="{% url 'login' %}" id="login" class="w3-btn w3-medium w3-hover-green authentication">Login</a>

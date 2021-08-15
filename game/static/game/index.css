@@ -96,6 +96,11 @@ body {
 .scoringP {
   padding-left: 1rem;
 }
+#welcome {
+  font-family: 'Orbitron', sans-serif;
+  color: rgb(216, 216, 216);
+  padding-left: 1rem;
+}
 header {
   display: flex;
   flex-direction: row;
