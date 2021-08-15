@@ -119,10 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500)
   }
 
-  // add 200 squares to grid plus 10 for bottom row to stop tetros
+  // add 200 squares to grid plus 10 for hidden bottom row to stop tetros
   for (let i = 0; i < 210; i++) {
     let div = document.createElement("div")
-    // tetro will stop falling when it hits a "taken" div so this is the floor
+    // tetro will stop falling when it hits a "taken" div so this is the hidden bottom row
     if (i > 199) {
       div.classList.add("taken")
       div.style.backgroundColor = "transparent"
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return false
   }
   
-  // stop tetro from falling when it collides with a div that include class "taken"
+  // stop tetro from falling when it collides with a div that includes class "taken"
   function stopTetro() {
     if (tetro.some( num => squares[currentPosition + num + width].classList.contains("taken"))) {
       tetro.forEach( num => squares[currentPosition + num].classList.add("taken"))
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function scorePoints() {
     let rowsCleared = 0,
-        pointsScored = 0
+        pointsScored = 0,
         rowsToClear = [],
         i = 0
 
