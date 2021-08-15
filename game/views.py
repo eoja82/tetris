@@ -37,5 +37,20 @@ def register(request):
         return render(request, "game/register.html")
 
 
-def login(request):
-    return render(request, "game/login.html")
+def login_user(request):
+    if request.method == "POST":
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "game/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "game/login.html")
