@@ -54,3 +54,8 @@ def login_user(request):
             })
     else:
         return render(request, "game/login.html")
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("index"))
