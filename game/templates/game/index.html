@@ -40,24 +40,61 @@
         {% endif %}
       </div>
 
-      <div class="gameContainer">
-        <div class="grid"></div>
-        <div class="gameStats">
-          <div class="scoreContainer">
-            <p>SCORE</p>
-            <p id="score">0</p>
+      <div class="gameAndLeaderboardContainer">
+        <div class="gameContainer">
+          <div class="grid"></div>
+          <div class="gameStats">
+            <div class="scoreContainer">
+              <p>SCORE</p>
+              <p id="score">0</p>
+            </div>
+            <div class="upNext">
+              <p>NEXT</p>
+              <h3 id="gameOver">GAME OVER</h3>
+              <div class="upNextGrid"></div>
+            </div>
+            <div>
+              <button id="reset">RESET <i class="fa fa-redo-alt"></i></button>
+            </div>
+            <div>
+              <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
+            </div>
           </div>
-          <div class="upNext">
-            <p>NEXT</p>
-            <h3 id="gameOver">GAME OVER</h3>
-            <div class="upNextGrid"></div>
+        </div>
+
+        <div class="leaderboardContainer">
+          <div id="leaderboard">
+            <p>Leaderboard</p>
+            <ol type="1" class="scoreList">
+              {% for score in leaderboard %}
+                <li title="{{ score.user.username }}"> 
+                  {% if score.user.username|length > 10 %}
+                    {{ score.user|truncatechars:8 }}
+                  {% else %}
+                    {{ score.user }}
+                  {% endif %}
+                  <span class="score">{{ score.score }}</span>
+                </li>
+              {% endfor %}
+            </ol>
           </div>
-          <div>
-            <button id="reset">RESET <i class="fa fa-redo-alt"></i></button>
-          </div>
-          <div>
-            <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
-          </div>
+          {% if user_scores %}
+            <div id="userHighScores">
+              <p>Your High Scores</p>
+              <ol type="1" class="scoreList">
+                {% for score in user_scores %}
+                  <li title="{{ score.user.username }}"> 
+                    {% if score.user.username|length > 10 %}
+                      <span title="{{ score.user }}" class="user">{{ score.user|truncatechars:8 }}</span>
+                    {% else %}
+                      <span class="user">{{ score.user }}</span>
+                    {% endif %}
+                    <span class="score">{{ score.score }}</span>
+                  </li>
+                {% endfor %}
+              </ol>
+            </div>
+          {% endif %}
         </div>
       </div>
 
