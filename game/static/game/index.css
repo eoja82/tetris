@@ -136,8 +136,13 @@ header {
 #score {
   font-size: 1rem;
 }
-.gameContainer {
+.gameAndLeaderboardContainer {
   display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.gameContainer {
+  display: flex;
   background-color: rgb(92, 92, 92);
   padding: 1.75rem;
   margin: 0 auto;
@@ -219,6 +224,24 @@ header {
   justify-content: center;
   animation-duration: 2s;
   margin: .75rem auto 16px;
+}
+.leaderboardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  color: rgb(31, 209, 221);
+  margin: 0 auto;
+  justify-content: start;
+  width: auto;
+}
+#leaderboard, #userHighScores {
+  padding: 5px;
+}
+.scoreList {
+  padding-left: 25px;
+}
+.score {
+  float: right;
 }
 #controlsContainer {
   display: none;
