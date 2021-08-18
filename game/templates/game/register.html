@@ -32,7 +32,7 @@
     <form action="{% url 'register' %}" method="POST" class="w3-container">
       {% csrf_token %}
       <label for="username">Username</b></label>
-      <input type="text" name="username" id="username" class="w3-input w3-border" required>
+      <input type="text" name="username" id="username" class="w3-input w3-border" maxlength="20" required>
 
       <label for="email">Email</b></label>
       <input type="email" name="email" id="email" class="w3-input w3-border" required>
