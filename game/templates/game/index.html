@@ -65,7 +65,7 @@
         <div class="leaderboardContainer">
           <div id="leaderboard">
             <p>Leaderboard</p>
-            <ol type="1" class="scoreList">
+            <ol type="1" id="leaderScoreList" class="scoreList">
               {% for score in leaderboard %}
                 <li title="{{ score.user.username }}"> 
                   {% if score.user.username|length > 10 %}
@@ -75,26 +75,32 @@
                   {% endif %}
                   <span class="score">{{ score.score }}</span>
                 </li>
+                {% empty %}
+                <p>Be the first to score!</p>
               {% endfor %}
             </ol>
           </div>
-          {% if user_scores %}
-            <div id="userHighScores">
-              <p>Your High Scores</p>
-              <ol type="1" class="scoreList">
-                {% for score in user_scores %}
-                  <li title="{{ score.user.username }}"> 
-                    {% if score.user.username|length > 10 %}
-                      <span title="{{ score.user }}" class="user">{{ score.user|truncatechars:8 }}</span>
-                    {% else %}
-                      <span class="user">{{ score.user }}</span>
-                    {% endif %}
-                    <span class="score">{{ score.score }}</span>
-                  </li>
-                {% endfor %}
-              </ol>
-            </div>
-          {% endif %}
+          <div id="userHighScores">
+            <p>Your High Scores</p>
+            <ol type="1" id="userScoreList" class="scoreList">
+              {% for score in user_scores %}
+                <li title="{{ score.user.username }}"> 
+                  {% if score.user.username|length > 10 %}
+                    {{ score.user|truncatechars:8 }}
+                  {% else %}
+                    {{ score.user }}
+                  {% endif %}
+                  <span class="score">{{ score.score }}</span>
+                </li>
+                {% empty %}
+                {% if user.is_authenticated %}
+                  <p>Get on the leaderboard!</p>
+                {% else %}
+                  <p>Login to save your scores.</p>
+                {% endif %}
+              {% endfor %}
+            </ol>
+          </div>
         </div>
       </div>
 
