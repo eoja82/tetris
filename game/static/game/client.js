@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const width = 10
-  const gameContainer = document.querySelector(".gameContainer")
+  const gameAndLeaderboardContainer = document.querySelector(".gameAndLeaderboardContainer")
+  /* const gameContainer = document.querySelector(".gameContainer") */
   const controlsContainer = document.getElementById("controlsContainer")
   const grid = document.querySelector(".grid")
   const score = document.getElementById("score")
@@ -68,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // prevent screen zoom on mobile if user misses control buttons
-  gameContainer.addEventListener("click", pvDefault)
+  gameAndLeaderboardContainer.addEventListener("click", pvDefault)
+  /* gameContainer.addEventListener("click", pvDefault) */
   controlsContainer.addEventListener("click", pvDefault)
 
   function pvDefault(e) {
@@ -106,8 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // fade in game, controls, nav
     hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
-    gameContainer.classList.add("animate__animated", "animate__fadeInUp")
-    gameContainer.style.display = "flex"
+    gameAndLeaderboardContainer.classList.add("animate__animated", "animate__fadeInUp")
+    /* gameContainer.classList.add("animate__animated", "animate__fadeInUp") */
+    gameAndLeaderboardContainer.style.display = "flex"
+    /* gameContainer.style.display = "flex" */
 
     setTimeout(function () {
       userNav.classList.add("animate__animated", "animate__fadeIn")
@@ -228,10 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
   addEventListener("keydown", controls)
 
   function controls(e) {
-    if (e.keyCode === 37) moveLeft()
-    if (e.keyCode === 39) moveRight()
-    if (e.keyCode === 40) dropDown()
-    if (e.keyCode === 32) rotate()
+    if (e.keyCode === 37) moveLeft(e)
+    if (e.keyCode === 39) moveRight(e)
+    if (e.keyCode === 40) dropDown(e)
+    if (e.keyCode === 32) rotate(e)
   }
 
   // start / stop button
@@ -562,9 +566,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         points += (rowsCleared * pointsScored)
         score.innerHTML = points
-        if (points >= winngingScore) {
+        /* if (points >= winngingScore) {
           winGame()
-        } else {
+        } else { */
           if (points >= gamelevel) {
             speed -= 100
             gamelevel += winngingScore / 10
@@ -573,7 +577,7 @@ document.addEventListener("DOMContentLoaded", () => {
           draw()
           endGame()
           playPause()
-        }
+        //}
       }
       return true
     } else {
@@ -591,11 +595,12 @@ document.addEventListener("DOMContentLoaded", () => {
       gameOver.style.visibility = "visible"
       upNextGrid.style.display = "none"
       clearInterval(gravity)
+      checkScore(score.innerText)
     }
   }
 
   // win game 
-  function winGame() {
+  /* function winGame() {
     playing = false
     gameOver.innerText = "WINNER!"
     gameOver.style.color = "green"
@@ -604,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameOver.style.visibility = "visible"
     upNextGrid.style.display = "none"
     clearInterval(gravity)
-  }
+  } */
 
   // reset game
   const reset = document.getElementById("reset")
@@ -615,7 +620,8 @@ document.addEventListener("DOMContentLoaded", () => {
     playing = false
     gamelevel = winngingScore / 10
     speed = 1000
-    score.innerHTML = "0"
+    points = 0
+    score.innerHTML = points
     gameOver.style.visibility = "hidden"
     gameOver.classList.remove("animate__animated", "animate__flash")
     gameOver.style.display = "none"
@@ -637,5 +643,40 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     tetro = tetros[randomTetro()][randomRotation()]
     upNextTetro = Math.floor(Math.random() * tetros.length)
+  }
+
+  // check if there is a new high score when the game is over
+  function checkScore(score) {
+    fetch("/score", {
+      method: "POST",
+      body: JSON.stringify({
+        score: score
+      })
+    })
+    .then( res => {
+      if (res.status === 201) {
+        return res.json()
+      } else {
+        return {"message": false}
+      }
+    })
+    .then( data => {
+      console.log(data)
+      if (data.message) {
+        setTimeout(function() {alert(data.message)}, 1500)
+        document.getElementById("leaderScoreList").innerHTML = createListHTML(data.leaderboard)
+        document.getElementById("userScoreList").innerHTML = createListHTML(data.user_scores)
+
+        function createListHTML(list) {
+          html = ""
+          list.forEach( x => {
+            username = x.user.length > 10 ? x.user.slice(0, 8) + "..." : x.user
+            html = html + `<li title="${x.user}">${username}<span class="score">${x.score}</span></li>`
+          })
+          return html
+        }
+      }
+    })
+    .catch( err => console.log("Error", err))
   }
 })
