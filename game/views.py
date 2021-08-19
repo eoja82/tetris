@@ -1,13 +1,37 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.core.checks import messages
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.db.models import Max, Min
+from django.db.models.expressions import F
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.urls.conf import path
+from django.views.decorators.csrf import csrf_exempt
+import json
 
-from .models import User
+from .models import Scores, User
 
 def index(request):
-    return render(request, "game/index.html")
+    try:
+        leaderboard = Scores.objects.all().order_by("-score")[:10]
+    except Scores.DoesNotExist:
+        leaderboard = []
+
+    if request.user.is_authenticated:
+        try:
+            user_scores = Scores.objects.filter(user=request.user).order_by("-score")[:10]
+        except Scores.DoesNotExist:
+            user_scores = []
+
+        return render(request, "game/index.html", {
+        "leaderboard": leaderboard, "user_scores": user_scores
+    })
+
+    return render(request, "game/index.html", {
+        "leaderboard": leaderboard
+    })
 
 
 def register(request):
@@ -59,3 +83,81 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+
+@csrf_exempt
+@login_required
+def score(request):
+    if request.method == "POST":
+        leaderboard = []
+        user_scores = []
+        message = ""
+        user_high_score = False
+        leaderboard_high_score = False
+        score = int(json.loads(request.body)["score"])
+        print("score", score)
+        try:
+            user_scores = Scores.objects.filter(user=request.user).order_by("-score")
+        except Scores.DoesNotExist:
+            pass
+
+        # get current leaderboard before saving any new score    
+        try:
+            leaderboard = Scores.objects.all().order_by("-score")[:10]
+        except Scores.DoesNotExist:
+            pass
+        print("leaderboard low score first", leaderboard[len(leaderboard) - 1].score)
+        if user_scores:
+            user_count = user_scores.count()
+            print("user_count", user_count, "user low score", user_scores[len(user_scores) - 1].score)
+            if user_count < 10 or score > user_scores[len(user_scores) - 1].score:
+                print("new user high score")
+                user_high_score = True
+
+                # delete low score if 10 scores for user in database
+                if user_count >= 10:
+                    user_scores[len(user_scores) - 1].delete()
+
+                # save new score
+                new_score = Scores(user=request.user, score=score)
+                new_score.save()
+            
+            # get user's scores after saving new score and convert to parsable JSON
+            user_scores = [{"user": x.user.username, "score": x.score} for x in Scores.objects.filter(user=request.user).order_by("-score")]
+
+            #print("user_scores", user_scores, type(user_scores))
+        else:
+            print("no user scores found")
+            user_scores = Scores(user=request.user, score=score)
+            user_scores.save()
+            # convert to parsable JSON
+            user_scores = [{"user": x.user.username, "score": x.score} for x in user_scores]
+            user_high_score = True
+
+        # check if score makes the leaderboard
+        if leaderboard:
+            print("leaderboard low score later", leaderboard[len(leaderboard) - 1].score)
+            if leaderboard.count() < 10 or score > leaderboard[len(leaderboard) - 1].score:
+                print("on leaderboard")
+                leaderboard_high_score = True
+                # get updated leaderboard and to parsable JSON
+            leaderboard = [{"user": x.user.username, "score": x.score} for x in Scores.objects.all().order_by("-score")[:10]]
+        else:
+            print("no leaderboard scores")
+            leaderboard_high_score = True
+            # get updated leaderboard and to parsable JSON
+            leaderboard = [{"user": x.user.username, "score": x.score} for x in Scores.objects.all().order_by("-score")[:10]]
+
+        if user_high_score:
+            print("in set message")
+            if user_high_score and leaderboard_high_score:
+                message = "Congratulations, you are on the leaderboard and have new new personal top 10 score!"
+            else:
+                message = "Congratulations, you have new new personal top 10 score!"
+        
+            return JsonResponse({"leaderboard": leaderboard, "user_scores": user_scores, "message": message}, status=201, safe=False)
+
+        else:
+            return HttpResponse(status=204)
+    else:
+        return render(request, "game/index.html")
