@@ -106,7 +106,7 @@ def score(request):
             leaderboard = Scores.objects.all().order_by("-score")[:10]
         except Scores.DoesNotExist:
             pass
-        print("leaderboard low score first", leaderboard[len(leaderboard) - 1].score)
+        #print("leaderboard low score first", leaderboard[len(leaderboard) - 1].score)
         if user_scores:
             user_count = user_scores.count()
             print("user_count", user_count, "user low score", user_scores[len(user_scores) - 1].score)
@@ -136,7 +136,7 @@ def score(request):
 
         # check if score makes the leaderboard
         if leaderboard:
-            print("leaderboard low score later", leaderboard[len(leaderboard) - 1].score)
+            #print("leaderboard low score later", leaderboard[len(leaderboard) - 1].score)
             if leaderboard.count() < 10 or score > leaderboard[len(leaderboard) - 1].score:
                 print("on leaderboard")
                 leaderboard_high_score = True
