@@ -612,7 +612,8 @@ document.addEventListener("DOMContentLoaded", () => {
     playing = false
     gamelevel = winngingScore / 10
     speed = 1000
-    score.innerHTML = "0"
+    points = 0
+    score.innerHTML = points
     gameOver.style.visibility = "hidden"
     gameOver.classList.remove("animate__animated", "animate__flash")
     gameOver.style.display = "none"
