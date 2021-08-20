@@ -661,12 +661,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
     .then( data => {
-      console.log(data)
       if (data.message) {
-        setTimeout(function() {alert(data.message)}, 1500)
-        document.getElementById("leaderScoreList").innerHTML = createListHTML(data.leaderboard)
-        document.getElementById("userScoreList").innerHTML = createListHTML(data.user_scores)
-
+        setTimeout(function() {
+          alert(data.message)
+          document.getElementById("leaderScoreList").innerHTML = createListHTML(data.leaderboard)
+          document.getElementById("userScoreList").innerHTML = createListHTML(data.user_scores)
+        }, 1500)
+        
         function createListHTML(list) {
           html = ""
           list.forEach( x => {
