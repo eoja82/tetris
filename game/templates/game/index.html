@@ -20,15 +20,6 @@
     <button id="openSidebar" class="w3-button w3-large w3-hover-green">☰</button>
 
     <div class="pageContainer">
-      <header>
-        <div class="hLetter">T</div>
-        <div class="hLetter">E</div>
-        <div class="hLetter">T</div>
-        <div class="hLetter">R</div>
-        <div class="hLetter">I</div>
-        <div class="hLetter">S</div>
-      </header>
-
       <div id="userNav">
         {% if user.is_authenticated %}
           <h4 id="welcome">Good luck {{ user.username }}!</h4>
@@ -39,6 +30,15 @@
           </nav>
         {% endif %}
       </div>
+
+      <header>
+        <div class="hLetter">T</div>
+        <div class="hLetter">E</div>
+        <div class="hLetter">T</div>
+        <div class="hLetter">R</div>
+        <div class="hLetter">I</div>
+        <div class="hLetter">S</div>
+      </header>
 
       <div class="gameAndLeaderboardContainer">
         <div class="gameContainer">
@@ -64,7 +64,7 @@
 
         <div class="leaderboardContainer">
           <div id="leaderboard">
-            <p>Leaderboard</p>
+            <h5 class="leaderboardHeader">Leaderboard</h5>
             <ol type="1" id="leaderScoreList" class="scoreList">
               {% for score in leaderboard %}
                 <li title="{{ score.user.username }}"> 
@@ -81,7 +81,7 @@
             </ol>
           </div>
           <div id="userHighScores">
-            <p>Your High Scores</p>
+            <h5 class="leaderboardHeader">Your High Scores</h5>
             <ol type="1" id="userScoreList" class="scoreList">
               {% for score in user_scores %}
                 <li title="{{ score.user.username }}"> 
