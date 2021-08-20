@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const width = 10
   const gameAndLeaderboardContainer = document.querySelector(".gameAndLeaderboardContainer")
-  /* const gameContainer = document.querySelector(".gameContainer") */
   const controlsContainer = document.getElementById("controlsContainer")
   const grid = document.querySelector(".grid")
   const score = document.getElementById("score")
@@ -70,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // prevent screen zoom on mobile if user misses control buttons
   gameAndLeaderboardContainer.addEventListener("click", pvDefault)
-  /* gameContainer.addEventListener("click", pvDefault) */
   controlsContainer.addEventListener("click", pvDefault)
 
   function pvDefault(e) {
@@ -102,16 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
       hLetters.forEach( x => {
         x.classList.remove("animate__animated", "animate__fadeIn")
         x.style.fontSize = fontSizeEnd
-        x.style.marginTop = "1rem"
+        x.style.marginTop = "1.5rem"
       }, delay)
     })
 
     // fade in game, controls, nav
     hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
     gameAndLeaderboardContainer.classList.add("animate__animated", "animate__fadeInUp")
-    /* gameContainer.classList.add("animate__animated", "animate__fadeInUp") */
     gameAndLeaderboardContainer.style.display = "flex"
-    /* gameContainer.style.display = "flex" */
 
     setTimeout(function () {
       userNav.classList.add("animate__animated", "animate__fadeIn")
