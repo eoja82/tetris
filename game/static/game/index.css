@@ -149,9 +149,12 @@ header {
 }
 .gameContainer {
   display: flex;
+  position: relative;
   background-color: rgb(92, 92, 92);
-  padding: 1.75rem;
-  margin: 0 auto;
+  padding: 20px 20px 115px;
+  margin: 0 auto 2.5rem;
+  border-radius: 5px 5px 30px;
+  border: 2px solid var(--borderColor);
   justify-content: center;
 }
 .grid {
@@ -253,71 +256,37 @@ header {
   float: right;
 }
 #controlsContainer {
-  display: none;
+  position: absolute;
+  bottom: 25px;
 }
-@media (hover: none) {
-  #controlsContainer {
-    position: fixed;
-    bottom: 200px;
-    left: 0;
-    width: 100vw;
-    display: none;
-  }
-  .controlButton {
-    width: 60px;
-    height: 60px;
-    padding: 0;
-    font-size: 1.75rem;
-    border-radius: 50%;
-    border: none;
-    color: white;
-    background-color: rgb(92, 92, 92);
-  }
-  #leftControls {
-    float: left;
-    margin: 0;
-    padding-left: var(--controlPaddingSide);
-    padding-bottom: var(--controlPaddingBottom);
-  }
-  #rotate {
-    margin-right: 1rem;
-  }
-  #rightControls {
-    float: right;
-    margin: 0;
-    padding-right: var(--controlPaddingSide);
-    padding-bottom: var(--controlPaddingBottom);
-  }
-  #moveRight {
-    margin-left: 1rem;
-  }
+.controlButton {
+  width: 60px;
+  height: 60px;
+  margin: 0 5px;
+  padding: 0;
+  font-size: 1.75rem;
+  border-radius: 50%;
+  color: white;
+  border: 2px solid var(--borderColor);
+  background-color: #000000;
 }
 @media only screen and (max-height: 815px) {
   #playPauseBtn, #reset {
     margin-top: .7rem;
-  }
-  #rotate {
-    margin-right: .5rem;
-  }
-  #moveRight {
-    margin-left: .5rem;
-  }
-  #controlsContainer {
-    bottom: 0;
   }
 }
 @media only screen and (max-height: 570px) {
   #playPauseBtn, #reset {
     margin-top: .45rem;
   }
+  .controlButton {
+    width: 55px;
+    height: 55px;
+  }
 }
 @media only screen and (max-width: 440px) {
   .pageContainer {
     max-width: 100%;
-  }
-  .gameContainer {
-    padding: 5px;
-    margin-bottom: 100px;
   }
   .gameStats {
     margin-left: 5px;

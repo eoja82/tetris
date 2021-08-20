@@ -112,8 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(function () {
       userNav.classList.add("animate__animated", "animate__fadeIn")
       userNav.style.display = "block"
-      controlsContainer.classList.add("animate__animated", "animate__fadeIn")
-      controlsContainer.style.display = display
       openSidebar.classList.add("animate__animated", "animate__fadeIn")
       openSidebar.style.display = "block"
     }, 500)
@@ -234,6 +232,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.keyCode === 32) rotate(e)
   }
 
+  // button game controls
+  const clickRotate = document.getElementById("rotate")
+  const clickMoveDown = document.getElementById("moveDown")
+  const clickMoveLeft = document.getElementById("moveLeft")
+  const clickMoveRight = document.getElementById("moveRight")
+
+  clickRotate.addEventListener("click", rotate)
+  clickMoveDown.addEventListener("click", dropDown)
+  clickMoveLeft.addEventListener("click", moveLeft)
+  clickMoveRight.addEventListener("click", moveRight)
+
   // start / stop button
   let playing = false
   let gravity 
@@ -261,19 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // button game controls for mobile
-  const touchRotate = document.getElementById("rotate")
-  const touchMoveDown = document.getElementById("moveDown")
-  const touchMoveLeft = document.getElementById("moveLeft")
-  const touchMoveRight = document.getElementById("moveRight")
-  
-  touchRotate.addEventListener("touchend", rotate)
-  touchMoveDown.addEventListener("touchend", dropDown)
-  touchMoveLeft.addEventListener("touchend", moveLeft)
-  touchMoveRight.addEventListener("touchend", moveRight)
-
   function dropDown(e) {
-    // if e user is using touch controls
+    // if e user is using button controls
     if (e) e.preventDefault()
     if (!playing) return
     undraw()

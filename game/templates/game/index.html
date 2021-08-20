@@ -60,6 +60,12 @@
               <button id="playPauseBtn">PLAY <i class="fa fa-play"></i></button>
             </div>
           </div>
+          <div id="controlsContainer">
+              <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
+              <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
+              <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
+              <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
+          </div>
         </div>
 
         <div class="leaderboardContainer">
@@ -102,20 +108,7 @@
             </ol>
           </div>
         </div>
-      </div>
-
-      <!-- game controls for mobile -->
-      <div id="controlsContainer">
-        <div id="leftControls">
-          <button id="rotate" class="controlButton"><i class="fas fa-sync"></i></button>
-          <button id="moveDown" class="controlButton"><i class="fas fa-arrow-down"></i></button>
-        </div>
-        <div id="rightControls">
-          <button id="moveLeft" class="controlButton"><i class="fas fa-arrow-left"></i></button>
-          <button id="moveRight" class="controlButton"><i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
-      
+      </div>      
     </div>
 
     <!-- Instructions modal -->
@@ -148,7 +141,7 @@
     <!-- sounds -->
     <audio id="rotateSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/congo/1[kb]bass.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
     <audio id="landSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/dkong/5[kb]effect02.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
-    <audio id="scoreSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/berzerk/20[kb]30.wav.mp3" type="audio/mpeg"></audio>
+    <audio id="scoreSound" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/VIDEO%20GAMES/berzerk/20[kb]30.wav.mp3" type="audio/mpeg">Your browser does not support the game audio.</audio>
 
     {% block scripts %}
       <script src="{% static 'game/client.js' %}"></script>
