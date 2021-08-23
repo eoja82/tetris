@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function moveToTop() {
     delay = 2000
     const fontSizeEnd = getComputedStyle(document.body).getPropertyValue("--hLetterFontSizeEnd")
-    const display = getComputedStyle(document.body).getPropertyValue("--controlsDisplay")
 
     // shrink font-size and move to top of screen
     setTimeout(function () {
