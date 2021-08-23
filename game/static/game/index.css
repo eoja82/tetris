@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;800&display=swap');
 
 :root {
-  --borderColor: rgb(216, 216, 216);
+  --borderColor: rgb(200, 200, 200);
   --borderRadius: 3px;
   --gameBackground: black;
   --gridWidth: 204px;
@@ -14,13 +14,10 @@
   --controlPaddingBottom: 2rem;
   --hLetterFontSizeStart: 8rem;
   --hLetterFontSizeEnd: 4rem;
-  --controlsDisplay: none;
+  --textColor: rgb(216, 216, 216);
+  --buttonColor: rgb(60, 60, 60);
 }
-@media (hover: none) {
-  :root {
-    --controlsDisplay: block;
-  }
-}
+
 @media only screen and (max-height: 570px) {
   :root {
     --gridWidth: 164px;
@@ -56,9 +53,8 @@ body {
   background-color: rgb(31, 31, 31);
   z-index: 1;
 }
-
 .authentication {
-  color: rgb(216, 216, 216);
+  color: var(--textColor);
 }
 #sidebar {
   background-color: rgb(230, 230, 230);
@@ -104,7 +100,7 @@ body {
 }
 #welcome {
   font-family: 'Orbitron', sans-serif;
-  color: rgb(216, 216, 216);
+  color: var(--textColor);
   padding-left: 1rem;
 }
 header {
@@ -132,7 +128,7 @@ header {
   border: 2px solid var(--borderColor);
   border-radius: var(--borderRadius);
   margin: 0 0 .75rem;
-  color: white;
+  color: var(--textColor);
 }
 .scoreContainer p {
   font-size: .9rem;
@@ -150,8 +146,8 @@ header {
 .gameContainer {
   display: flex;
   position: relative;
-  background-color: rgb(92, 92, 92);
-  padding: 20px 20px 115px;
+  background-color: rgb(130, 130, 130);
+  padding: 20px 20px 140px;
   margin: 0 auto 2.5rem;
   border-radius: 5px 5px 30px;
   border: 2px solid var(--borderColor);
@@ -175,14 +171,14 @@ header {
 .gameStats {
   max-width: 100px;
   margin-left: 50px;
-  color: white;
+  color: --var(--textColor);
 }
 .upNext {
   padding: .5rem 0;
   background-color: var(--gameBackground);
   border: 2px solid var(--borderColor);
   border-radius: var(--borderRadius);
-  color: white;
+  color: var(--textColor);
   text-align: center;
   font-size: .9rem;
 }
@@ -205,21 +201,21 @@ header {
   margin-top: 1.5rem;
   padding: .5rem 0;
   font-size: 1rem;
-  color: white;
-  border: 2px solid var(--borderColor);
-  border-radius: var(--borderRadius);
-  background-color: var(--gameBackground);
+  color: var(--textColor);
+  border: 2px solid var(--buttonColor);
+  border-radius: 35px;
+  background-color: var(--buttonColor);
 }
 .fa {
   font-size: .825rem;
 }
 #playPauseBtn:hover, #playPauseBtn:focus {
-  background-color: orange;
-  border: 2px solid orange;
+  background-color: green;
+  border-color: green;
 }
 #reset:hover, #reset:focus {
   background-color: red;
-  border: 2px solid red;
+  border-color: red;
 }
 #gameOver {
   font-size: 1.25rem;
@@ -257,18 +253,60 @@ header {
 }
 #controlsContainer {
   position: absolute;
-  bottom: 25px;
+  bottom: 8px;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+#arrows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 222px;
+  position: relative;
+}
+#leftRight {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: 100%;
+  position: absolute;
+  bottom: 50px;
+}
+#moveDown {
+  margin: 0 auto;
+  position: absolute;
+  bottom: 12px;
+  left: 82px;
+}
+#rotation {
+  margin: 0 auto 35px;
 }
 .controlButton {
   width: 60px;
   height: 60px;
   margin: 0 5px;
   padding: 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   border-radius: 50%;
-  color: white;
-  border: 2px solid var(--borderColor);
-  background-color: #000000;
+  color: black;
+  border: 2px solid var(--buttonColor);
+  background-color: var(--buttonColor);
+}
+#rotate {
+color: red;
+}
+#moveDown {
+  color: green;
+}
+#moveLeft {
+ color: orange;
+}
+#moveRight {
+  color: orange;
 }
 @media only screen and (max-height: 815px) {
   #playPauseBtn, #reset {
@@ -287,6 +325,9 @@ header {
 @media only screen and (max-width: 440px) {
   .pageContainer {
     max-width: 100%;
+  }
+  #welcome {
+    font-size: 15px;
   }
   .gameStats {
     margin-left: 5px;
