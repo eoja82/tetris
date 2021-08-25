@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const width = 10
-  const gameContainer = document.querySelector(".gameContainer")
+  const gameAndLeaderboardContainer = document.querySelector(".gameAndLeaderboardContainer")
   const controlsContainer = document.getElementById("controlsContainer")
   const grid = document.querySelector(".grid")
   const score = document.getElementById("score")
@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const landSound = document.getElementById("landSound")
   const scoreSound = document.getElementById("scoreSound")
   const tetroColors = [
-    "orange",              // i
-    "red",                 // j
-    "rgb(31, 209, 221)",   // l
-    "blue",                // 0 
-    "purple",              // s 
-    "green",               // t 
-    "yellow"               // z
+    "orange",              // i shape
+    "red",                 // j shape
+    "rgb(31, 209, 221)",   // l shape
+    "blue",                // 0 shape
+    "purple",              // s shape
+    "green",               // t shape
+    "yellow"               // z shape
   ]
   let winngingScore = 1000
   let gamelevel = winngingScore / 10
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // prevent screen zoom on mobile if user misses control buttons
-  gameContainer.addEventListener("click", pvDefault)
+  gameAndLeaderboardContainer.addEventListener("click", pvDefault)
   controlsContainer.addEventListener("click", pvDefault)
 
   function pvDefault(e) {
@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // intro animations
+  const userNav = document.getElementById("userNav")
   const hLetters = document.querySelectorAll(".hLetter")
   let delay = 0
 
@@ -92,34 +93,33 @@ document.addEventListener("DOMContentLoaded", () => {
   function moveToTop() {
     delay = 2000
     const fontSizeEnd = getComputedStyle(document.body).getPropertyValue("--hLetterFontSizeEnd")
-    const display = getComputedStyle(document.body).getPropertyValue("--controlsDisplay")
 
     // shrink font-size and move to top of screen
     setTimeout(function () {
       hLetters.forEach( x => {
         x.classList.remove("animate__animated", "animate__fadeIn")
         x.style.fontSize = fontSizeEnd
-        x.style.marginTop = "1rem"
+        x.style.marginTop = "1.5rem"
       }, delay)
     })
 
     // fade in game, controls, nav
     hLetters[hLetters.length - 1].removeEventListener("animationend", moveToTop)
-    gameContainer.classList.add("animate__animated", "animate__fadeInUp")
-    gameContainer.style.display = "flex"
+    gameAndLeaderboardContainer.classList.add("animate__animated", "animate__fadeInUp")
+    gameAndLeaderboardContainer.style.display = "flex"
 
     setTimeout(function () {
-      controlsContainer.classList.add("animate__animated", "animate__fadeIn")
-      controlsContainer.style.display = display
+      userNav.classList.add("animate__animated", "animate__fadeIn")
+      userNav.style.display = "block"
       openSidebar.classList.add("animate__animated", "animate__fadeIn")
       openSidebar.style.display = "block"
     }, 500)
   }
 
-  // add 200 squares to grid plus 10 for bottom row to stop tetros
+  // add 200 squares to grid plus 10 for hidden bottom row to stop tetros
   for (let i = 0; i < 210; i++) {
     let div = document.createElement("div")
-    // tetro will stop falling when it hits a "taken" div so this is the floor
+    // tetro will stop falling when it hits a "taken" div so this is the hidden bottom row
     if (i > 199) {
       div.classList.add("taken")
       div.style.backgroundColor = "transparent"
@@ -225,11 +225,22 @@ document.addEventListener("DOMContentLoaded", () => {
   addEventListener("keydown", controls)
 
   function controls(e) {
-    if (e.keyCode === 37) moveLeft()
-    if (e.keyCode === 39) moveRight()
-    if (e.keyCode === 40) dropDown()
-    if (e.keyCode === 32) rotate()
+    if (e.keyCode === 37) moveLeft(e)
+    if (e.keyCode === 39) moveRight(e)
+    if (e.keyCode === 40) dropDown(e)
+    if (e.keyCode === 32) rotate(e)
   }
+
+  // button game controls
+  const clickRotate = document.getElementById("rotate")
+  const clickMoveDown = document.getElementById("moveDown")
+  const clickMoveLeft = document.getElementById("moveLeft")
+  const clickMoveRight = document.getElementById("moveRight")
+
+  clickRotate.addEventListener("click", rotate)
+  clickMoveDown.addEventListener("click", dropDown)
+  clickMoveLeft.addEventListener("click", moveLeft)
+  clickMoveRight.addEventListener("click", moveRight)
 
   // start / stop button
   let playing = false
@@ -258,19 +269,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // button game controls for mobile
-  const touchRotate = document.getElementById("rotate")
-  const touchMoveDown = document.getElementById("moveDown")
-  const touchMoveLeft = document.getElementById("moveLeft")
-  const touchMoveRight = document.getElementById("moveRight")
-  
-  touchRotate.addEventListener("touchend", rotate)
-  touchMoveDown.addEventListener("touchend", dropDown)
-  touchMoveLeft.addEventListener("touchend", moveLeft)
-  touchMoveRight.addEventListener("touchend", moveRight)
-
   function dropDown(e) {
-    // if e user is using touch controls
+    // if e user is using button controls
     if (e) e.preventDefault()
     if (!playing) return
     undraw()
@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return false
   }
   
-  // stop tetro from falling when it collides with a div that include class "taken"
+  // stop tetro from falling when it collides with a div that includes class "taken"
   function stopTetro() {
     if (tetro.some( num => squares[currentPosition + num + width].classList.contains("taken"))) {
       tetro.forEach( num => squares[currentPosition + num].classList.add("taken"))
@@ -515,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function scorePoints() {
     let rowsCleared = 0,
-        pointsScored = 0
+        pointsScored = 0,
         rowsToClear = [],
         i = 0
 
@@ -559,9 +559,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         points += (rowsCleared * pointsScored)
         score.innerHTML = points
-        if (points >= winngingScore) {
+        /* if (points >= winngingScore) {
           winGame()
-        } else {
+        } else { */
           if (points >= gamelevel) {
             speed -= 100
             gamelevel += winngingScore / 10
@@ -570,7 +570,7 @@ document.addEventListener("DOMContentLoaded", () => {
           draw()
           endGame()
           playPause()
-        }
+        //}
       }
       return true
     } else {
@@ -588,11 +588,12 @@ document.addEventListener("DOMContentLoaded", () => {
       gameOver.style.visibility = "visible"
       upNextGrid.style.display = "none"
       clearInterval(gravity)
+      checkScore(score.innerText)
     }
   }
 
   // win game 
-  function winGame() {
+  /* function winGame() {
     playing = false
     gameOver.innerText = "WINNER!"
     gameOver.style.color = "green"
@@ -601,7 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameOver.style.visibility = "visible"
     upNextGrid.style.display = "none"
     clearInterval(gravity)
-  }
+  } */
 
   // reset game
   const reset = document.getElementById("reset")
@@ -635,5 +636,41 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     tetro = tetros[randomTetro()][randomRotation()]
     upNextTetro = Math.floor(Math.random() * tetros.length)
+  }
+
+  // check if there is a new high score when the game is over
+  function checkScore(score) {
+    fetch("/score", {
+      method: "POST",
+      body: JSON.stringify({
+        score: score
+      })
+    })
+    .then( res => {
+      if (res.status === 201) {
+        return res.json()
+      } else {
+        return {"message": false}
+      }
+    })
+    .then( data => {
+      if (data.message) {
+        setTimeout(function() {
+          alert(data.message)
+          document.getElementById("leaderScoreList").innerHTML = createListHTML(data.leaderboard)
+          document.getElementById("userScoreList").innerHTML = createListHTML(data.user_scores)
+        }, 1500)
+        
+        function createListHTML(list) {
+          let html = ""
+          list.forEach( x => {
+            const username = x.user.length > 10 ? x.user.slice(0, 8) + "..." : x.user
+            html = html + `<li title="${x.user}">${username}<span class="score">${x.score}</span></li>`
+          })
+          return html
+        }
+      }
+    })
+    .catch( err => console.log("Error", err))
   }
 })
