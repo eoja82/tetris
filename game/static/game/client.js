@@ -662,9 +662,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1500)
         
         function createListHTML(list) {
-          html = ""
+          let html = ""
           list.forEach( x => {
-            username = x.user.length > 10 ? x.user.slice(0, 8) + "..." : x.user
+            const username = x.user.length > 10 ? x.user.slice(0, 8) + "..." : x.user
             html = html + `<li title="${x.user}">${username}<span class="score">${x.score}</span></li>`
           })
           return html
